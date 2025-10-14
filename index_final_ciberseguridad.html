@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<!--
+  index.html
+  Versión final solicitada:
+  - Única vista
+  - Estética general: versión 'Chula' (animada, elegante)
+  - Título: estilo y efecto del 'Fumada' (gradiente/efecto llamativo)
+  - Contenido principal: versión 'Original' (definición, amenazas, decálogo)
+  - Títulos con tratamiento visual inspirado en 'Fumada'
+  - Incluye galería usando las imágenes de Google Drive y referencias añadidas
+-->
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Ciberseguridad — Presentación</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    :root{
+      --bg-1:#071020;
+      --bg-2:#041226;
+      --accent1:#00f0ff;
+      --accent2:#ff6a00;
+      --card-bg: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      --glass: rgba(255,255,255,0.04);
+      --text:#e9f6fb;
+      --muted: #9fdcff;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Montserrat,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;background:linear-gradient(180deg,var(--bg-1),var(--bg-2));color:var(--text);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+    .wrap{max-width:1100px;margin:32px auto;padding:28px;border-radius:14px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));box-shadow:0 10px 30px rgba(2,6,23,0.6)}
+    header{display:flex;gap:18px;align-items:center}
+    .logo{width:84px;height:84px;border-radius:12px;background:linear-gradient(135deg,var(--accent1),var(--accent2));display:flex;align-items:center;justify-content:center;color:#042; font-weight:800;font-size:22px;box-shadow:0 10px 30px rgba(123,97,255,0.12)}
+    /* Title take from 'fumada' - flashy gradient + subtle animation */
+    h1.title{font-size:36px;margin:0;line-height:1.02;font-weight:800;background:conic-gradient(from 90deg at 50% 50%, var(--accent2), var(--accent1)); -webkit-background-clip:text;background-clip:text;color:transparent; animation: glowTitle 4s linear infinite}
+    @keyframes glowTitle{
+      0%{ filter: hue-rotate(0deg) }
+      50%{ filter: hue-rotate(30deg) }
+      100%{ filter: hue-rotate(0deg) }
+    }
+    p.lead{margin:6px 0 0;color:rgba(233,246,251,0.85)}
+    .grid{display:grid;grid-template-columns:1fr 340px;gap:26px;margin-top:20px}
+    main.card{padding:20px;border-radius:12px;background:var(--card-bg);min-height:420px}
+    h2.section-title{font-size:18px;margin:6px 0 12px;color:var(--text);font-weight:700;text-transform:none; text-shadow:0 2px 12px rgba(0,0,0,0.6)}
+    p, li{color:rgba(233,246,251,0.95);line-height:1.45}
+    ul{padding-left:18px;margin:8px 0}
+    /* Decálogo style (infographic-like) */
+    .decologo{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:10px}
+    .item{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:12px;border-radius:10px;display:flex;gap:12px;align-items:center}
+    .num{width:40px;height:40px;border-radius:8px;background:rgba(255,255,255,0.03);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--text)}
+    .item p{margin:0;font-size:14px}
+    /* Gallery */
+    .gallery{display:flex;flex-direction:column;gap:10px}
+    .thumbs{display:flex;gap:10px}
+    .thumbs img{width:120px;height:80px;object-fit:cover;border-radius:8px;cursor:pointer;border:2px solid transparent}
+    .thumbs img:hover{border-color:rgba(123,97,255,0.35)}
+    /* Viewer modal */
+    .viewer{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:linear-gradient(180deg, rgba(2,6,23,0.6), rgba(2,6,23,0.88));z-index:1000}
+    .viewer.open{display:flex}
+    .stage{max-width:92%;max-height:86%;border-radius:12px;overflow:hidden;background:#000;display:flex;align-items:center;justify-content:center;position:relative;padding:8px}
+    .stage img{max-width:100%;max-height:100%;display:block;border-radius:6px}
+    .btn{position:absolute;background:rgba(255,255,255,0.05);border:none;color:var(--text);padding:10px;border-radius:8px;cursor:pointer}
+    .btn.close{top:12px;right:12px}
+    .btn.prev{left:8px;top:50%;transform:translateY(-50%)}
+    .btn.next{right:8px;top:50%;transform:translateY(-50%)}
+    /* Aside */
+    aside{padding:18px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));min-height:420px}
+    .references a{display:block;color:var(--accent1);text-decoration:none;margin-bottom:10px}
+    .references p{color:rgba(233,246,251,0.8);font-size:13px;margin-bottom:8px}
+    footer{margin-top:18px;color:rgba(233,246,251,0.6);font-size:13px}
+    @media (max-width:980px){.grid{grid-template-columns:1fr}.thumbs{flex-wrap:wrap}.thumbs img{width:140px;height:90px}}
+  </style>
+</head>
+<body>
+  <div class="wrap" role="main">
+    <header>
+      <div class="logo">CS</div>
+      <div>
+        <h1 class="title">Ciberseguridad — Presentación</h1>
+        <p class="lead">En un mundo cada vez más digitalizado, la ciberseguridad es una prioridad; las amenazas evolucionan y la prevención importa.</p>
+      </div>
+    </header>
+
+    <div class="grid">
+      <main class="card" aria-label="Contenido principal">
+        <section aria-labelledby="def">
+          <h2 id="def" class="section-title">¿Qué es la ciberseguridad?</h2>
+          <p>La ciberseguridad es el conjunto de prácticas, tecnologías y procesos diseñados para proteger sistemas, redes y datos de ataques digitales. Su objetivo principal es garantizar la <strong>confidencialidad, integridad y disponibilidad</strong> de la información.</p>
+        </section>
+
+        <section aria-labelledby="amenazas" style="margin-top:18px">
+          <h2 id="amenazas" class="section-title">Principales amenazas cibernéticas</h2>
+          <ul>
+            <li><strong>Phishing</strong>: correos o mensajes falsos que buscan engañar al usuario.</li>
+            <li><strong>Malware</strong>: virus, troyanos o spyware que infectan dispositivos.</li>
+            <li><strong>Ransomware</strong>: acceso a datos y exige un rescate.</li>
+            <li><strong>DDoS</strong>: ataques que saturan servicios.</li>
+            <li><strong>Fuerza bruta</strong>: intentos automatizados de adivinar contraseñas.</li>
+            <li><strong>Ingeniería social</strong>: manipulación psicológica para obtener acceso.</li>
+            <li><strong>Cadena de suministro</strong>: comprometer terceros para infiltrarse.</li>
+            <li><strong>Vulnerabilidades en la nube</strong>: configuraciones erróneas que filtran datos.</li>
+            <li><strong>Ataques a IoT</strong>: dispositivos conectados inseguros.</li>
+            <li><strong>Filtración de datos</strong>: exposición de información confidencial.</li>
+          </ul>
+        </section>
+
+        <section aria-labelledby="decalogo" style="margin-top:18px">
+          <h2 id="decalogo" class="section-title">Decálogo de buenas prácticas</h2>
+          <div class="decologo" role="list">
+            <div class="item"><div class="num">1</div><p>Usa contraseñas largas y únicas para cada cuenta.</p></div>
+            <div class="item"><div class="num">2</div><p>Activa la verificación en dos pasos siempre que sea posible.</p></div>
+            <div class="item"><div class="num">3</div><p>Mantén el sistema y las aplicaciones actualizadas con los últimos parches.</p></div>
+            <div class="item"><div class="num">4</div><p>No compartas credenciales ni accesos para información sensible.</p></div>
+            <div class="item"><div class="num">5</div><p>Realiza copias de seguridad periódicas de tus datos importantes.</p></div>
+            <div class="item"><div class="num">6</div><p>Desconfía de correos y enlaces inesperados; comprueba remitentes.</p></div>
+            <div class="item"><div class="num">7</div><p>Usa redes Wi‑Fi seguras y evita conexiones públicas para información sensible.</p></div>
+            <div class="item"><div class="num">8</div><p>Instala soluciones antimalware y mantenlas actualizadas.</p></div>
+            <div class="item"><div class="num">9</div><p>Revisa permisos de aplicaciones y elimina las que no uses.</p></div>
+            <div class="item"><div class="num">10</div><p>Forma e informa a la comunidad escolar sobre riesgos digitales.</p></div>
+          </div>
+        </section>
+
+        <section aria-labelledby="gal" style="margin-top:18px">
+          <h2 id="gal" class="section-title">Galería — pulsa para ampliar</h2>
+          <div class="gallery">
+            <div class="thumbs" aria-hidden="false">
+              <img src="https://drive.google.com/uc?export=view&id=1xPaqrSBADHyoigmlWjfOzqelXhZjTzgF" alt="foto1" tabindex="0" data-index="0">
+              <img src="https://drive.google.com/uc?export=view&id=1hbnC6Waz5MnXrzdQIppWfcA2_Pde_ms9" alt="foto2" tabindex="0" data-index="1">
+            </div>
+            <small style="color:rgba(233,246,251,0.65)">Pulsa las miniaturas para verlas en grande. Usa las flechas dentro del visor para navegar.</small>
+          </div>
+        </section>
+
+      </main>
+
+      <aside aria-label="Recursos y referencias">
+        <div style="margin-bottom:14px">
+          <h2 class="section-title">Referencias y recursos</h2>
+          <p class="h-sub">Enlaces recomendados para ampliar conocimientos:</p>
+          <div class="references">
+            <a href="https://www.ibm.com/es-es/topics/cybersecurity" target="_blank" rel="noopener">IBM — Cybersecurity (es)</a>
+            <a href="https://www.incibe.es/" target="_blank" rel="noopener">INCIBE — Instituto Nacional de Ciberseguridad</a>
+            <a href="https://www.pantallasamigas.net/" target="_blank" rel="noopener">PantallasAmigas — Seguridad y privacidad</a>
+          </div>
+        </div>
+
+        <div>
+          <h2 class="section-title">Notas para el profesor</h2>
+          <p class="h-sub">Subir a GitHub Pages o Netlify y usar la URL pública para incrustar en Google Sites mediante un iframe.</p>
+          <p style="font-size:13px;color:rgba(233,246,251,0.75);margin-top:8px">Atajos: desde el editor puedes ajustar texto, colores o añadir más imágenes. Si quieres, genero un zip con este index.html listo.</p>
+        </div>
+      </aside>
+    </div>
+
+    <footer>
+      <small>Creado para presentación escolar • Diseño sobrio con toque moderno.</small>
+    </footer>
+  </div>
+
+  <!-- Modal viewer -->
+  <div id="viewer" class="viewer" aria-hidden="true">
+    <div class="stage" role="dialog" aria-modal="true">
+      <button class="btn close" aria-label="Cerrar">✕</button>
+      <button class="btn prev" aria-label="Anterior">◀</button>
+      <img id="viewImg" src="" alt="Imagen ampliada">
+      <button class="btn next" aria-label="Siguiente">▶</button>
+    </div>
+  </div>
+
+  <script>
+    // Gallery viewer
+    (function(){
+      const thumbs = Array.from(document.querySelectorAll('.thumbs img'));
+      const viewer = document.getElementById('viewer');
+      const viewImg = document.getElementById('viewImg');
+      const btnClose = document.querySelector('.btn.close');
+      const btnPrev = document.querySelector('.btn.prev');
+      const btnNext = document.querySelector('.btn.next');
+      let idx = 0;
+      function open(i){ idx = i; viewImg.src = thumbs[idx].src; viewer.classList.add('open'); viewer.setAttribute('aria-hidden','false') }
+      function close(){ viewer.classList.remove('open'); viewer.setAttribute('aria-hidden','true'); viewImg.src = '' }
+      function prev(){ idx = (idx - 1 + thumbs.length) % thumbs.length; viewImg.src = thumbs[idx].src }
+      function next(){ idx = (idx + 1) % thumbs.length; viewImg.src = thumbs[idx].src }
+      thumbs.forEach((t,i)=>{ t.addEventListener('click', ()=> open(i)); t.addEventListener('keydown',(e)=>{ if(e.key==='Enter' || e.key===' ') open(i) }) })
+      btnClose.addEventListener('click', close);
+      btnPrev.addEventListener('click', prev);
+      btnNext.addEventListener('click', next);
+      viewer.addEventListener('click', (e)=>{ if(e.target===viewer) close() });
+      document.addEventListener('keydown', (e)=>{ if(viewer.classList.contains('open')){ if(e.key==='ArrowLeft') prev(); if(e.key==='ArrowRight') next(); if(e.key==='Escape') close(); } });
+    })();
+  </script>
+</body>
+</html>
