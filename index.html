@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Ciberseguridad — Estética mejorada (v2)</title>
+  <title>Ciberseguridad — Estética mejorada (v3)</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <style>
@@ -19,101 +19,99 @@
       --light: #eafcff;
       --muted: #9fdcff;
       --content-bg: linear-gradient(120deg, rgba(10,30,60,0.98), rgba(2,10,30,0.98));
-      /* EXPLOSIVE TITLES */
       --gradText: linear-gradient(90deg, #00f5ff, #7b61ff, #ff6a88, #ffd27a, #7effb2, #00f5ff);
-      --gradTextSize: 420%;
-      --titleGlow: 0 6px 28px rgba(123,97,255,0.24), 0 20px 90px rgba(255,106,136,0.06), 0 0 160px rgba(0,245,255,0.06);
-      --sectionGlow: 0 8px 40px rgba(255,106,136,0.12), 0 14px 70px rgba(123,97,255,0.06);
-      --glass-2: rgba(255,255,255,0.03);
     }
     *{box-sizing:border-box}
     html{scroll-behavior:smooth}
     body{
-      margin:0;
-      min-height:100vh;
-      font-family:"Montserrat",system-ui,-apple-system,"Segoe UI",Roboto,Arial;
-      background: var(--bg-dark);
-      color:var(--light);
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
+      margin:0; min-height:100vh; font-family:"Montserrat",system-ui,-apple-system,"Segoe UI",Roboto,Arial; background: var(--bg-dark); color:var(--light);
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
     }
 
-    .page { min-height:100vh; padding:48px 20px 88px; background: var(--content-bg); position:relative; overflow:hidden; perspective:1400px; }
-    .page::before{ content:""; position:fixed; inset:-25% -25% -25% -25%; z-index:-2; background: conic-gradient(from 0deg at 50% 50%, #ff004d, #ff8a00, #ffee00, #00ff9d, #00b2ff, #9a00ff, #ff004d); background-size:200% 200%; filter: blur(36px) saturate(180%); opacity:0.18; transform: scale(1.02); animation: spin 18s linear infinite; mix-blend-mode: screen; }
+    .page{ min-height:100vh; padding:48px 20px 88px; background:var(--content-bg); position:relative; overflow:hidden; perspective:1600px; }
+    .page::before{ content:""; position:fixed; inset:-25% -25% -25% -25%; z-index:-2; background: conic-gradient(from 0deg at 50% 50%, #ff004d, #ff8a00, #ffee00, #00ff9d, #00b2ff, #9a00ff, #ff004d); background-size:220% 220%; filter: blur(44px) saturate(200%); opacity:0.2; transform: scale(1.02); animation: spin 20s linear infinite; mix-blend-mode: screen; }
     @keyframes spin{0%{transform:rotate(0)}50%{transform:rotate(180deg) scale(1.02)}100%{transform:rotate(360deg)}}
 
-    /* floating shapes */
-    .float-shape{ position:absolute; width:220px; height:220px; border-radius:28px; filter:blur(44px); opacity:0.08; z-index:-1; }
-    .s1{ right:6%; top:6%; background:linear-gradient(45deg,#00f0ff66,#7b61ff66); animation: floaty 9s ease-in-out infinite; }
-    .s2{ left:4%; bottom:8%; background:linear-gradient(45deg,#ff6a8866,#ffd27a66); animation: floaty 12s ease-in-out infinite reverse; }
-    @keyframes floaty{ 0%{transform:translateY(0) rotate(0)}50%{transform:translateY(-26px) rotate(8deg)}100%{transform:translateY(0) rotate(0)} }
+    .float-shape{ position:absolute; width:260px; height:260px; border-radius:32px; filter:blur(48px); opacity:0.09; z-index:-1; }
+    .s1{ right:6%; top:4%; background:linear-gradient(45deg,#00f0ff66,#7b61ff66); animation: floaty 10s ease-in-out infinite; }
+    .s2{ left:4%; bottom:6%; background:linear-gradient(45deg,#ff6a8866,#ffd27a66); animation: floaty 14s ease-in-out infinite reverse; }
+    @keyframes floaty{ 0%{transform:translateY(0) rotate(0)}50%{transform:translateY(-34px) rotate(10deg)}100%{transform:translateY(0) rotate(0)} }
 
     header{ max-width:1100px; margin:0 auto 18px; padding:6px 18px; }
 
-    /* BIG EXPLOSIVE TITLE */
-    .title {
-      font-size:3.2rem; margin:0; line-height:1; font-weight:900; letter-spacing:-0.02em;
-      background: var(--gradText);
-      background-size: var(--gradTextSize) 100%;
-      -webkit-background-clip: text; background-clip: text; color: transparent;
-      animation: hueShift 5s linear infinite, titlePulse 4.2s ease-in-out infinite;
-      filter: var(--titleGlow);
-      text-shadow: 0 2px 12px rgba(0,0,0,0.6);
+    /* TITULO: GRADIENTE EXPLOSIVO */
+    .title{
+      font-size:3.6rem; margin:0; line-height:1; font-weight:900; letter-spacing:-0.02em;
+      background: var(--gradText); background-size:420% 100%; -webkit-background-clip:text; background-clip:text; color:transparent;
+      animation: hueShift 4.6s linear infinite, titleBeams 3.8s ease-in-out infinite;
+      text-shadow: 0 8px 42px rgba(123,97,255,0.18), 0 28px 120px rgba(255,106,136,0.06), 0 0 200px rgba(0,245,255,0.06);
     }
     @keyframes hueShift{ 0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%} }
-    @keyframes titlePulse{ 0%{transform:scale(1)}50%{transform:scale(1.02)}100%{transform:scale(1)} }
+    @keyframes titleBeams{ 0%{filter:brightness(1)}25%{filter:brightness(1.2) drop-shadow(0 6px 30px rgba(255,255,255,0.06))}50%{filter:brightness(1.4) drop-shadow(0 12px 70px rgba(255,255,255,0.08))}75%{filter:brightness(1.2)}100%{filter:brightness(1)} }
+    .title::after{ content:""; display:block; height:9px; width:70%; margin-top:10px; background:linear-gradient(90deg,#00f5ff66,#7b61ff66,#ff6a8866); filter:blur(34px); opacity:0.95; border-radius:12px; }
 
-    .title::after{ content:""; display:block; height:6px; width:100%; margin-top:8px; background:linear-gradient(90deg,#00f5ff33,#7b61ff33,#ff6a8833); filter:blur(18px); opacity:0.9; border-radius:8px; }
+    .subtitle{ margin-top:12px; color:var(--muted); font-size:1rem; max-width:980px; }
 
-    .subtitle { margin-top:12px; color:var(--muted); font-size:1rem; max-width:980px; }
-
-    /* Grid y tarjetas con baile lateral */
+    /* Grid */
     .grid{ max-width:1100px; margin:28px auto 0; display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:18px; }
+
+    /* CARD: más violento en movimiento y reacciones */
     .card{
-      padding:18px; border-radius: var(--card-radius); background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02)); border:1px solid rgba(255,255,255,0.03);
-      box-shadow: 0 14px 36px rgba(2,10,20,0.52); color:var(--light); display:flex; flex-direction:column; gap:8px; min-height:120px;
-      transition: transform .25s cubic-bezier(.2,.9,.2,1), box-shadow .25s, filter .25s; transform-origin:center center; opacity:0; transform: translateY(18px) scale(.99);
-      position:relative; will-change:transform; transform-style:preserve-3d; cursor:default; overflow:visible; border-image: linear-gradient(90deg, rgba(0,240,255,0.12), rgba(123,97,255,0.08)) 1;
+      padding:20px; border-radius: calc(var(--card-radius) + 4px); background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02)); border:1px solid rgba(255,255,255,0.04);
+      box-shadow: 0 18px 46px rgba(2,10,20,0.6); color:var(--light); display:flex; flex-direction:column; gap:10px; min-height:130px;
+      transition: transform .22s cubic-bezier(.2,.9,.2,1), box-shadow .22s, filter .22s; transform-origin:center center; opacity:0; transform: translateY(24px) scale(.985);
+      position:relative; will-change:transform; transform-style:preserve-3d; cursor:default; overflow:visible; }
+
+    .card.visible{ opacity:1; transform: translateY(0) scale(1); animation: popIn .6s cubic-bezier(.2,.9,.2,1); animation-delay: calc(var(--i,0) * 60ms); }
+    @keyframes popIn{ 0%{opacity:0; transform:translateY(16px) scale(.98) rotateX(10deg)} 60%{transform:translateY(-10px) scale(1.04) rotateX(0)} 100%{opacity:1; transform:translateY(0) scale(1)} }
+
+    /* DANCE: lateral + bob + rotate */
+    @keyframes danceXy{
+      0%{ transform: translateX(calc(var(--dance-range,12px) * -1)) translateY(0) rotate(-1deg) }
+      25%{ transform: translateX(calc(var(--dance-range,12px) * -0.4)) translateY(-6px) rotate(-0.2deg) }
+      50%{ transform: translateX(calc(var(--dance-range,12px))) translateY(2px) rotate(1.3deg) }
+      75%{ transform: translateX(calc(var(--dance-range,12px) * 0.4)) translateY(-2px) rotate(-0.3deg) }
+      100%{ transform: translateX(calc(var(--dance-range,12px) * -1)) translateY(0) rotate(-1deg) }
     }
-    .card.visible{ opacity:1; transform: translateY(0) scale(1); animation: popIn .6s cubic-bezier(.2,.9,.2,1); animation-delay: calc(var(--i,0) * 70ms); }
-    @keyframes popIn{ 0%{opacity:0; transform:translateY(10px) scale(.995) rotateX(8deg)} 60%{transform:translateY(-6px) scale(1.02) rotateX(0)} 100%{opacity:1; transform:translateY(0) scale(1)} }
+    .card.dance{ animation: danceXy var(--dance-dur,3.8s) ease-in-out infinite; }
 
-    /* DANCE: movimiento lateral constante, personalizado por variables */
-    @keyframes danceX{ 0%{transform: translateX(calc(var(--dance-range,6px) * -1)) rotate(-0.6deg)} 50%{transform: translateX(calc(var(--dance-range,6px))) rotate(0.6deg)} 100%{transform: translateX(calc(var(--dance-range,6px) * -1)) rotate(-0.6deg)} }
+    /* Hover: EXPLOSIÓN de reacción */
+    .card:hover{
+      transform: translateY(-28px) scale(1.12) rotateZ(-1.2deg); box-shadow: 0 70px 160px rgba(0,0,0,0.8), 0 0 80px rgba(255,106,136,0.12) inset; filter:brightness(1.08) saturate(1.2); z-index:9;
+    }
+    /* Brillo dinámico en cada tarjeta (rayo) */
+    .card::after{
+      content:""; position:absolute; left:-20%; top:-30px; width:140%; height:220%; pointer-events:none; background: radial-gradient(600px 140px at 20% 10%, rgba(255,255,255,0.06), transparent 12%), linear-gradient(90deg, rgba(255,255,255,0.02), transparent 40%);
+      transform: translateY(8px) rotate(2deg); opacity:0; transition: opacity .28s, transform .5s; border-radius:inherit; mix-blend-mode: screen;
+    }
+    .card:hover::after{ opacity:1; transform: translateY(-6px) rotate(-0.5deg); }
 
-    .card.dance{ animation: danceX var(--dance-dur,4s) ease-in-out infinite; }
+    /* ICON */
+    .icon{ font-size:30px; color:transparent; width:60px; height:60px; display:inline-flex; align-items:center; justify-content:center; border-radius:14px; background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02)); border:1px solid rgba(255,255,255,0.03); position:relative; z-index:2; }
+    .icon i{ color:var(--accent-1); transition: transform .22s cubic-bezier(.2,.9,.2,1), color .22s, text-shadow .22s; font-size:22px; }
+    .card:hover .icon i{ transform:translateY(-12px) scale(1.3) rotate(-12deg); color:var(--accent-2); text-shadow:0 8px 28px rgba(255,106,136,0.18); }
 
-    /* hover exagerado con tilt (JS también aplica transform while moving) */
-    .card:hover{ transform: translateY(-18px) scale(1.08) rotateZ(-0.8deg); box-shadow: 0 46px 100px rgba(0,0,0,0.7), 0 0 38px rgba(255,106,136,0.06) inset; filter:brightness(1.03) saturate(1.12); z-index:6; }
-
-    .icon{ font-size:30px; color:transparent; width:54px; height:54px; display:inline-flex; align-items:center; justify-content:center; border-radius:12px; background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02)); border:1px solid rgba(255,255,255,0.03); position:relative; z-index:2; }
-    .icon i{ color:var(--accent-1); transition: transform .28s cubic-bezier(.2,.9,.2,1), color .28s; }
-    .card:hover .icon i{ transform:translateY(-8px) scale(1.18) rotate(-8deg); color:var(--accent-2); }
-
-    .card h3{ margin:0; font-size:1.05rem; color:#fff; font-weight:900; letter-spacing:0.005em; position:relative; z-index:2; background: linear-gradient(90deg,#ffd27a,#ff6a88,#7b61ff); -webkit-background-clip:text; background-clip:text; color:transparent; text-shadow: 0 6px 30px rgba(255,106,136,0.06); }
+    .card h3{ margin:0; font-size:1.05rem; color:#fff; font-weight:900; letter-spacing:0.005em; position:relative; z-index:2; background: linear-gradient(90deg,#ffd27a,#ff6a88,#7b61ff); -webkit-background-clip:text; background-clip:text; color:transparent; }
     .card p{ margin:0; color:#dff7fb; line-height:1.45; font-size:0.95rem; position:relative; z-index:2; }
 
-    /* SECTION TITLE: centered and maximal gradient + glow */
-    .section-title{ font-size:1.6rem; margin:36px auto 8px; max-width:1100px; text-transform:uppercase; letter-spacing:0.08em; font-weight:900;
-      background: linear-gradient(90deg,#00f5ff,#7b61ff,#ff6a88,#ffd27a); -webkit-background-clip:text; background-clip:text; color:transparent;
-      text-shadow: var(--sectionGlow); display:block; text-align:center; padding:6px 12px; border-radius:10px; }
+    /* sparkle elements created on hover */
+    .spark{ position:absolute; width:8px; height:8px; border-radius:50%; pointer-events:none; opacity:0; transform:scale(0.6); mix-blend-mode: screen; }
 
-    .section-sub{ max-width:1100px; margin:0 auto 18px; color:rgba(200,240,255,0.85); text-align:center }
+    /* section title centered, extreme gradient */
+    .section-title{ font-size:1.6rem; margin:36px auto 8px; max-width:1100px; text-transform:uppercase; letter-spacing:0.08em; font-weight:900; background: linear-gradient(90deg,#00f5ff,#7b61ff,#ff6a88,#ffd27a,#7effb2); -webkit-background-clip:text; background-clip:text; color:transparent; text-shadow: 0 10px 48px rgba(123,97,255,0.16), 0 30px 140px rgba(255,106,136,0.07); text-align:center; }
+    .section-sub{ max-width:1100px; margin:0 auto 18px; color:rgba(200,240,255,0.95); text-align:center }
 
-    footer{ max-width:1100px; margin:48px auto 18px; color: rgba(255,255,255,0.65); font-size:0.9rem; text-align:center; padding:8px 18px; }
-
-    /* lightbox */
-    .lightbox { position:fixed; inset:0; display:none; align-items:center; justify-content:center; background: rgba(2,6,12,0.78); z-index:1500; padding:24px; }
+    /* Lightbox: centered fix y brillo */
+    .lightbox{ position:fixed; inset:0; display:none; align-items:center; justify-content:center; background: rgba(2,6,12,0.82); z-index:1600; padding:24px; }
     .lightbox.active{ display:flex; }
-    .lightbox .frame{ width:min(1100px,92%); height:min(720px,86%); background:linear-gradient(180deg,#000,#0a0a0a); border-radius:14px; overflow:hidden; position:relative; box-shadow:0 30px 100px rgba(0,0,0,0.8); transform-origin:center center; animation: lbPop .28s cubic-bezier(.2,.9,.2,1); }
-    @keyframes lbPop{ 0%{transform:scale(.98) translateY(8px); opacity:0}100%{transform:none; opacity:1} }
+    .lightbox .frame{ margin:auto; width:min(1100px,92%); height:min(720px,86%); background:linear-gradient(180deg,#000,#060606); border-radius:16px; overflow:hidden; position:relative; box-shadow:0 40px 140px rgba(0,0,0,0.85), 0 0 80px rgba(123,97,255,0.06); transform-origin:center center; animation: lbPop .28s cubic-bezier(.2,.9,.2,1); display:flex; align-items:center; justify-content:center; }
     .lightbox iframe{ width:100%; height:100%; border:0; display:block; background:#000 }
-    .lightbox .close{ position:absolute; right:12px; top:12px; background:rgba(255,255,255,0.06); color:#fff; border-radius:8px; padding:10px 12px; border:0; cursor:pointer; z-index:5; backdrop-filter: blur(4px); }
+    .lightbox .close{ position:absolute; right:14px; top:14px; background:linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02)); color:#fff; border-radius:10px; padding:10px 12px; border:0; cursor:pointer; z-index:5; backdrop-filter: blur(6px); box-shadow:0 8px 30px rgba(0,0,0,0.6); }
 
     .refs{ max-width:1100px; margin:28px auto 0; padding:18px; border-radius:12px; background: rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.03); color:var(--muted); }
     .refs a{ color:var(--accent-1); text-decoration:underline; }
 
-    @media (max-width:780px){ .title{ font-size:1.9rem } .card{ padding:14px } .icon{ width:44px; height:44px } }
+    @media (max-width:780px){ .title{ font-size:1.9rem } .card{ padding:14px } .icon{ width:48px; height:48px } }
   </style>
 </head>
 <body>
@@ -131,7 +129,7 @@
       <p class="section-sub">Resumen de los riesgos que conviene conocer para proteger información personal y dispositivos.</p>
 
       <div class="grid" id="threats">
-        <!-- Mantengo contenido original, ahora con baile -->
+        <!-- Mantengo texto original, activadas dance y variables -->
         <article class="card dance" role="article"><div class="icon"><i class="fa-regular fa-envelope-open"></i></div><h3>PHI$H!NG</h3><p>Mensajes (correo, SMS, apps) falsos que buscan engañar para robar credenciales o datos bancarios.</p></article>
 
         <article class="card dance" role="article"><div class="icon"><i class="fa-solid fa-bug"></i></div><h3>MΛLWΛRE</h3><p>Software malicioso: virus, troyanos y spyware que dañan o espían dispositivos y datos.</p></article>
@@ -206,7 +204,6 @@
       </div>
     </div>
 
-    <!-- Referencias / sugerencias -->
     <aside class="refs" aria-label="Referencias recomendadas">
       <strong>Sugerencias y referencias útiles</strong>
       <ul style="margin:12px 0 0 18px; color:var(--muted)">
@@ -220,23 +217,21 @@
   </div>
 
   <script>
-    // Stagger reveal + assign dance variables
+    // Stagger reveal + dance variables más intensos
     const gridCards = document.querySelectorAll('.grid .card');
     const obs = new IntersectionObserver((entries, o) => {
       entries.forEach(entry => {
         if(entry.isIntersecting){
           const idx = Array.from(gridCards).indexOf(entry.target);
           entry.target.style.setProperty('--i', idx);
-          // set per-card dance variables
-          const range = (6 + (idx % 4) * 3) + 'px';
-          const dur = (3.2 + Math.random()*2.8).toFixed(2) + 's';
-          const delay = (Math.random()*1200).toFixed(0) + 'ms';
+          const baseRange = 12 + (idx % 5) * 6; // 12..36px
+          const range = baseRange + Math.round(Math.random()*10) + 'px';
+          const dur = (2.6 + Math.random()*2.8).toFixed(2) + 's';
+          const delay = (Math.random()*600).toFixed(0) + 'ms';
           entry.target.style.setProperty('--dance-range', range);
           entry.target.style.setProperty('--dance-dur', dur);
           entry.target.style.animationDelay = delay;
-
           entry.target.classList.add('visible');
-          // keep dance running — it's lively
           entry.target.classList.add('dance');
           o.unobserve(entry.target);
         }
@@ -244,7 +239,7 @@
     }, {threshold: 0.12});
     gridCards.forEach(c => obs.observe(c));
 
-    // Lightbox logic preserved
+    // Lightbox logic con centrado garantizado
     const lb = document.getElementById('lightbox');
     const lbFrame = document.getElementById('lb-frame');
     const lbClose = document.getElementById('lb-close');
@@ -263,14 +258,21 @@
         lbFrame.src = url;
         lb.classList.add('active');
         lb.setAttribute('aria-hidden','false');
+        // force scroll lock (simple)
+        document.body.style.overflow = 'hidden';
       });
+
+      // keyboard accessibility
+      btn.setAttribute('tabindex','0');
+      btn.addEventListener('keydown', (e) => { if(e.key==='Enter' || e.key===' ') { e.preventDefault(); btn.click(); } });
     });
 
-    lbClose.addEventListener('click', () => { lbFrame.src=''; lb.classList.remove('active'); lb.setAttribute('aria-hidden','true'); });
-    document.addEventListener('keydown', (e) => { if(e.key === 'Escape' && lb.classList.contains('active')) lbClose.click(); });
-    lb.addEventListener('click', (e) => { if(e.target === lb) lbClose.click(); });
+    function closeLB(){ lbFrame.src=''; lb.classList.remove('active'); lb.setAttribute('aria-hidden','true'); document.body.style.overflow = ''; }
+    lbClose.addEventListener('click', closeLB);
+    document.addEventListener('keydown', (e) => { if(e.key === 'Escape' && lb.classList.contains('active')) closeLB(); });
+    lb.addEventListener('click', (e) => { if(e.target === lb) closeLB(); });
 
-    // 3D tilt on mouse move for cards: exaggerated
+    // 3D tilt y reacciones MUY exageradas + sparks
     const allCards = document.querySelectorAll('.card');
     allCards.forEach(card => {
       card.addEventListener('mousemove', (e) => {
@@ -278,14 +280,51 @@
         const x = e.clientX - rect.left; const y = e.clientY - rect.top;
         const cx = rect.width/2; const cy = rect.height/2;
         const dx = (x-cx)/cx; const dy = (y-cy)/cy;
-        const rx = (dy * 10).toFixed(2); const ry = (-dx * 12).toFixed(2);
-        card.style.transform = `translateY(-18px) scale(1.08) rotateX(${rx}deg) rotateY(${ry}deg) rotateZ(-0.6deg)`;
+        const rx = (dy * 14).toFixed(2); const ry = (-dx * 16).toFixed(2);
+        card.style.transform = `translateY(-28px) scale(1.12) rotateX(${rx}deg) rotateY(${ry}deg) rotateZ(-0.6deg)`;
       });
-      card.addEventListener('mouseenter', ()=>{ card.style.transition='transform .06s linear, box-shadow .25s'; });
-      card.addEventListener('mouseleave', ()=>{ card.style.transition='transform .35s cubic-bezier(.2,.9,.2,1), box-shadow .35s'; card.style.transform=''; });
+      card.addEventListener('mouseenter', (e) => {
+        card.style.transition='transform .03s linear, box-shadow .18s';
+        // create multiple sparks
+        for(let i=0;i<6;i++) createSpark(card);
+      });
+      card.addEventListener('mouseleave', ()=>{ card.style.transition='transform .45s cubic-bezier(.2,.9,.2,1), box-shadow .35s'; card.style.transform=''; });
+
+      // small random shake when not hovered
+      const tinyShake = () => {
+        if(card.matches(':hover')){ setTimeout(tinyShake, 800 + Math.random()*1600); return; }
+        const tx = (Math.random()*8 -4).toFixed(2);
+        const ty = (Math.random()*6 -3).toFixed(2);
+        const rot = (Math.random()*1.6 -0.8).toFixed(2);
+        card.animate([
+          { transform: `translate(${tx}px, ${ty}px) rotate(${rot}deg)` },
+          { transform: 'translate(0px, 0px) rotate(0deg)' }
+        ], { duration: 340 + Math.random()*700, easing: 'ease-in-out' });
+        setTimeout(tinyShake, 1200 + Math.random()*2600);
+      };
+      setTimeout(tinyShake, 300 + Math.random()*800);
     });
 
-    // Respect prefers-reduced-motion
+    // crear spark visual
+    function createSpark(card){
+      const s = document.createElement('span'); s.className='spark';
+      const colors = ['#fff8c6','#ffd5e8','#bff8ff','#ffd27a'];
+      s.style.background = colors[Math.floor(Math.random()*colors.length)];
+      const rw = card.getBoundingClientRect();
+      const left = Math.random()*(rw.width-20) + 'px';
+      const top = Math.random()*(rw.height-20) + 'px';
+      s.style.left = left; s.style.top = top; s.style.opacity = '0';
+      card.appendChild(s);
+      const size = 6 + Math.random()*10; s.style.width = s.style.height = size+'px';
+      const anim = s.animate([
+        { opacity:0, transform:'scale(0.2) translateY(6px) rotate(0deg)' },
+        { opacity:1, transform:'scale(1.3) translateY(-6px) rotate(40deg)' },
+        { opacity:0, transform:'scale(0.6) translateY(-18px) rotate(80deg)' }
+      ], { duration: 420 + Math.random()*820, easing:'cubic-bezier(.2,.9,.2,1)' });
+      anim.onfinish = () => s.remove();
+    }
+
+    // reduced motion
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
     if(mq.matches){ document.querySelectorAll('.card').forEach(c=>{ c.style.animation='none'; c.style.transition='none'; }); document.querySelectorAll('.float-shape').forEach(s=>s.style.animation='none'); }
   </script>
