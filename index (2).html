@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Ciberseguridad — Estética mejorada (v4)</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <style>
+    :root{
+      --accent-1: #00f0ff;
+      --accent-2: #ff3d9a;
+      --accent-3: #ffd400;
+      --bg-dark: #071020;
+      --card-radius: 16px;
+      --light: #eafcff;
+      --muted: #9fdcff;
+      --content-bg: linear-gradient(120deg, rgba(10,30,60,0.98), rgba(2,10,30,0.98));
+      --gradText: linear-gradient(90deg, #00f5ff, #7b61ff, #ff6a88, #ffd27a, #7effb2, #00f5ff);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{ margin:0; min-height:100vh; font-family:"Montserrat",system-ui,-apple-system,"Segoe UI",Roboto,Arial; background: var(--bg-dark); color:var(--light); -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
+
+    .page{ min-height:100vh; padding:48px 20px 88px; background:var(--content-bg); position:relative; overflow:hidden; perspective:1600px; }
+    .page::before{ content:""; position:fixed; inset:-25% -25% -25% -25%; z-index:-2; background: conic-gradient(from 0deg at 50% 50%, #ff004d, #ff8a00, #ffee00, #00ff9d, #00b2ff, #9a00ff, #ff004d); background-size:220% 220%; filter: blur(44px) saturate(200%); opacity:0.18; transform: scale(1.02); animation: spin 20s linear infinite; mix-blend-mode: screen; }
+    @keyframes spin{0%{transform:rotate(0)}50%{transform:rotate(180deg) scale(1.02)}100%{transform:rotate(360deg)}}
+
+    .float-shape{ position:absolute; width:220px; height:220px; border-radius:32px; filter:blur(40px); opacity:0.08; z-index:-1; }
+    .s1{ right:6%; top:4%; background:linear-gradient(45deg,#00f0ff66,#7b61ff66); animation: floaty 10s ease-in-out infinite; }
+    .s2{ left:4%; bottom:6%; background:linear-gradient(45deg,#ff6a8866,#ffd27a66); animation: floaty 14s ease-in-out infinite reverse; }
+    @keyframes floaty{ 0%{transform:translateY(0) rotate(0)}50%{transform:translateY(-30px) rotate(8deg)}100%{transform:translateY(0) rotate(0)} }
+
+    header{ max-width:1100px; margin:0 auto 18px; padding:6px 18px; }
+
+    /* TITULO: saturación y brillo extra */
+    .title{
+      font-size:3.4rem; margin:0; line-height:1; font-weight:900; letter-spacing:-0.02em;
+      background: var(--gradText); background-size:420% 100%; -webkit-background-clip:text; background-clip:text; color:transparent;
+      animation: hueShift 4.6s linear infinite, titleBeams 3.6s ease-in-out infinite;
+      text-shadow: 0 12px 56px rgba(123,97,255,0.22), 0 36px 160px rgba(255,106,136,0.08), 0 0 260px rgba(0,245,255,0.09);
+      filter: saturate(1.55) contrast(1.05);
+    }
+    @keyframes hueShift{ 0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%} }
+    @keyframes titleBeams{ 0%{filter:brightness(1) saturate(1.4)}30%{filter:brightness(1.35) saturate(1.6) drop-shadow(0 8px 36px rgba(255,255,255,0.06))}60%{filter:brightness(1.6) saturate(1.8) drop-shadow(0 18px 90px rgba(255,255,255,0.09))}100%{filter:brightness(1) saturate(1.4)} }
+    .title::after{ content:""; display:block; height:10px; width:72%; margin-top:10px; background:linear-gradient(90deg,#00f5ff88,#7b61ff88,#ff6a8888); filter:blur(28px); opacity:0.98; border-radius:12px; }
+
+    .subtitle{ margin-top:12px; color:var(--muted); font-size:1rem; max-width:980px; }
+
+    /* Grid */
+    .grid{ max-width:1100px; margin:28px auto 0; display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:18px; }
+
+    /* CARD: menos agresivo pero animado y suave */
+    .card{
+      padding:18px; border-radius: calc(var(--card-radius) + 4px); background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02)); border:1px solid rgba(255,255,255,0.035);
+      box-shadow: 0 14px 36px rgba(2,10,20,0.52); color:var(--light); display:flex; flex-direction:column; gap:10px; min-height:120px;
+      transition: transform .28s cubic-bezier(.2,.9,.2,1), box-shadow .28s, filter .28s; transform-origin:center center; opacity:0; transform: translateY(14px) scale(.99);
+      position:relative; will-change:transform; transform-style:preserve-3d; cursor:default; overflow:visible; }
+
+    .card.visible{ opacity:1; transform: translateY(0) scale(1); animation: popIn .6s cubic-bezier(.2,.9,.2,1); animation-delay: calc(var(--i,0) * 60ms); }
+    @keyframes popIn{ 0%{opacity:0; transform:translateY(10px) scale(.992) rotateX(6deg)} 60%{transform:translateY(-6px) scale(1.02) rotateX(0)} 100%{opacity:1; transform:translateY(0) scale(1)} }
+
+    /* DANCE: rango reducido y duración más suave */
+    @keyframes danceXy{ 0%{ transform: translateX(calc(var(--dance-range,8px) * -1)) translateY(0) rotate(-0.6deg) } 50%{ transform: translateX(calc(var(--dance-range,8px))) translateY(2px) rotate(0.8deg) } 100%{ transform: translateX(calc(var(--dance-range,8px) * -1)) translateY(0) rotate(-0.6deg) } }
+    .card.dance{ animation: danceXy var(--dance-dur,4.8s) ease-in-out infinite; }
+
+    /* Hover: menos extremo pero todavía reactivo */
+    .card:hover{ transform: translateY(-18px) scale(1.06) rotateZ(-0.8deg); box-shadow: 0 46px 100px rgba(0,0,0,0.68), 0 0 38px rgba(255,106,136,0.06) inset; filter:brightness(1.04) saturate(1.08); z-index:6; }
+    .card::after{ content:""; position:absolute; left:-12%; top:-20px; width:124%; height:200%; pointer-events:none; background: radial-gradient(500px 120px at 20% 10%, rgba(255,255,255,0.04), transparent 12%), linear-gradient(90deg, rgba(255,255,255,0.02), transparent 40%); transform: translateY(6px) rotate(2deg); opacity:0; transition: opacity .32s, transform .5s; border-radius:inherit; mix-blend-mode: screen; }
+    .card:hover::after{ opacity:1; transform: translateY(-6px) rotate(-0.5deg); }
+
+    .icon{ font-size:28px; color:transparent; width:54px; height:54px; display:inline-flex; align-items:center; justify-content:center; border-radius:12px; background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02)); border:1px solid rgba(255,255,255,0.03); position:relative; z-index:2; }
+    .icon i{ color:var(--accent-1); transition: transform .32s cubic-bezier(.2,.9,.2,1), color .28s, text-shadow .28s; font-size:20px; }
+    .card:hover .icon i{ transform:translateY(-8px) scale(1.12) rotate(-8deg); color:var(--accent-2); text-shadow:0 8px 24px rgba(255,106,136,0.14); }
+
+    .card h3{ margin:0; font-size:1.05rem; color:#fff; font-weight:900; letter-spacing:0.005em; position:relative; z-index:2; background: linear-gradient(90deg,#ffd27a,#ff6a88,#7b61ff); -webkit-background-clip:text; background-clip:text; color:transparent; filter: saturate(1.25); text-shadow:0 6px 24px rgba(255,106,136,0.06); }
+    .card p{ margin:0; color:#dff7fb; line-height:1.45; font-size:0.95rem; position:relative; z-index:2; }
+
+    /* sparkle reduced: fewer and smaller */
+    .spark{ position:absolute; width:6px; height:6px; border-radius:50%; pointer-events:none; opacity:0; transform:scale(0.6); mix-blend-mode: screen; }
+
+    /* section title centered, saturated */
+    .section-title{ font-size:1.6rem; margin:36px auto 8px; max-width:1100px; text-transform:uppercase; letter-spacing:0.08em; font-weight:900; background: linear-gradient(90deg,#00f5ff,#7b61ff,#ff6a88,#ffd27a,#7effb2); -webkit-background-clip:text; background-clip:text; color:transparent; text-shadow: 0 10px 48px rgba(123,97,255,0.16), 0 30px 140px rgba(255,106,136,0.07); text-align:center; filter: saturate(1.45); }
+    .section-sub{ max-width:1100px; margin:0 auto 18px; color:rgba(200,240,255,0.95); text-align:center }
+
+    /* Lightbox centered and fixed */
+    .lightbox{ position:fixed; inset:0; display:none; align-items:center; justify-content:center; background: rgba(2,6,12,0.82); z-index:1600; padding:24px; }
+    .lightbox.active{ display:flex; }
+    .lightbox .frame{ margin:auto; width:min(1100px,92%); height:min(720px,86%); background:linear-gradient(180deg,#000,#060606); border-radius:16px; overflow:hidden; position:relative; box-shadow:0 40px 140px rgba(0,0,0,0.85), 0 0 80px rgba(123,97,255,0.06); transform-origin:center center; animation: lbPop .28s cubic-bezier(.2,.9,.2,1); display:flex; align-items:center; justify-content:center; }
+    .lightbox iframe{ width:100%; height:100%; border:0; display:block; background:#000 }
+    .lightbox .close{ position:absolute; right:14px; top:14px; background:linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02)); color:#fff; border-radius:10px; padding:10px 12px; border:0; cursor:pointer; z-index:5; backdrop-filter: blur(6px); box-shadow:0 8px 30px rgba(0,0,0,0.6); }
+
+    .refs{ max-width:1100px; margin:28px auto 0; padding:18px; border-radius:12px; background: rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.03); color:var(--muted); }
+    .refs a{ color:var(--accent-1); text-decoration:underline; }
+
+    @media (max-width:780px){ .title{ font-size:1.9rem } .card{ padding:14px } .icon{ width:48px; height:48px } }
+  </style>
+</head>
+<body>
+  <div class="page" role="main">
+    <div class="float-shape s1" aria-hidden="true"></div>
+    <div class="float-shape s2" aria-hidden="true"></div>
+
+    <header>
+      <h1 class="title">Ciberseguridad</h1>
+      <p class="subtitle">Definición, principales amenazas y decálogo de buenas prácticas.</p>
+    </header>
+
+    <section aria-label="Principales amenazas" class="content">
+      <h2 class="section-title">PRINCIPALES AMENAZAS</h2>
+      <p class="section-sub">Resumen de los riesgos que conviene conocer para proteger información personal y dispositivos.</p>
+
+      <div class="grid" id="threats">
+        <!-- Mantengo texto original, dance más suave -->
+        <article class="card dance" role="article"><div class="icon"><i class="fa-regular fa-envelope-open"></i></div><h3>PHI$H!NG</h3><p>Mensajes (correo, SMS, apps) falsos que buscan engañar para robar credenciales o datos bancarios.</p></article>
+
+        <article class="card dance" role="article"><div class="icon"><i class="fa-solid fa-bug"></i></div><h3>MΛLWΛRE</h3><p>Software malicioso: virus, troyanos y spyware que dañan o espían dispositivos y datos.</p></article>
+
+        <article class="card dance" role="article"><div class="icon"><i class="fa-solid fa-lock"></i></div><h3>RΔNS0MWΔRE</h3><p>Malware que cifra datos y exige rescate; mantener backups reduce impacto.</p></article>
+
+        <article class="card dance" role="article"><div class="icon"><i class="fa-solid fa-server"></i></div><h3>DDO$</h3><p>Ataques que saturan servidores con tráfico falso para interrumpir servicios.</p></article>
+
+        <article class="card dance" role="article"><div class="icon"><i class="fa-solid fa-key"></i></div><h3>FUERZA BRUTA</h3><p>Intentos automatizados para adivinar contraseñas débiles mediante muchas combinaciones.</p></article>
+
+        <article class="card dance" role="article"><div class="icon"><i class="fa-solid fa-user-secret"></i></div><h3>INGENIERÍA SOCIAL</h3><p>Manipulación psicológica (llamadas, mensajes, pretextos) para obtener acceso o información.</p></article>
+
+        <article class="card dance" role="article"><div class="icon"><i class="fa-solid fa-truck-fast"></i></div><h3>SUPPLY CHA!N</h3><p>Comprometer proveedores o software de terceros para infiltrar plataformas legítimas.</p></article>
+
+        <article class="card dance" role="article"><div class="icon"><i class="fa-solid fa-cloud"></i></div><h3>NUBE</h3><p>Errores de configuración en servicios cloud que permiten fugas de datos o accesos no autorizados.</p></article>
+
+        <article class="card dance" role="article"><div class="icon"><i class="fa-solid fa-wifi"></i></div><h3>IØT</h3><p>Dispositivos conectados sin protecciones que se convierten en puerta de entrada para atacantes.</p></article>
+
+        <article class="card dance" role="article"><div class="icon"><i class="fa-solid fa-database"></i></div><h3>DATA LEAK</h3><p>Exposición o robo de información sensible que puede derivar en fraude o suplantación.</p></article>
+      </div>
+    </section>
+
+    <div class="header-decal" style="max-width:1100px;margin:32px auto 0;padding:6px 18px;">
+      <h2 class="section-title">DECÁLOGO — Buenas prácticas</h2>
+      <p class="section-sub">Diez acciones sencillas y efectivas para proteger cuentas, dispositivos y datos.</p>
+    </div>
+
+    <section class="grid" aria-label="Decálogo" id="rules">
+      <article class="card dance"><div class="icon"><i class="fa-solid fa-lock"></i></div><h3>CONTRASEÑAS</h3><p>Usa contraseñas largas y únicas; utiliza frases y un gestor cuando sea posible.</p></article>
+      <article class="card dance"><div class="icon"><i class="fa-solid fa-shield-halved"></i></div><h3>MFA</h3><p>Activa autenticación multifactor en servicios importantes.</p></article>
+      <article class="card dance"><div class="icon"><i class="fa-solid fa-arrow-rotate-right"></i></div><h3>ACTUALIZA</h3><p>Mantén sistema y aplicaciones con los últimos parches de seguridad.</p></article>
+      <article class="card dance"><div class="icon"><i class="fa-solid fa-shield-virus"></i></div><h3>ANTIVIRUS</h3><p>Instala y actualiza protección antimalware donde proceda.</p></article>
+      <article class="card dance"><div class="icon"><i class="fa-solid fa-copy"></i></div><h3>BACKUPS</h3><p>Realiza copias de seguridad periódicas y prueba restaurarlas.</p></article>
+      <article class="card dance"><div class="icon"><i class="fa-regular fa-envelope"></i></div><h3>CUÍDADO CON EMAILS</h3><p>No abras enlaces ni archivos de remitentes desconocidos; confirma antes.</p></article>
+      <article class="card dance"><div class="icon"><i class="fa-solid fa-user-shield"></i></div><h3>PRIVACIDAD</h3><p>Revisa ajustes de privacidad y comparte lo mínimo necesario en redes.</p></article>
+      <article class="card dance"><div class="icon"><i class="fa-solid fa-wifi"></i></div><h3>REDES SEGURAS</h3><p>Evita Wi‑Fi públicas para trámites sensibles o usa VPN confiable.</p></article>
+      <article class="card dance"><div class="icon"><i class="fa-solid fa-right-from-bracket"></i></div><h3>CIERRA SESIÓN</h3><p>Desconéctate en equipos compartidos y bloquea dispositivos al ausentarte.</p></article>
+      <article class="card dance"><div class="icon"><i class="fa-solid fa-chalkboard-user"></i></div><h3>INFÓRMATE</h3><p>Consulta a responsables TI o fuentes oficiales ante dudas o incidentes.</p></article>
+    </section>
+
+    <!-- VISOR DE FOTOS -->
+    <div style="max-width:1100px;margin:42px auto 0;padding:6px 18px;">
+      <h2 class="section-title">VISOR DE FOTOS</h2>
+      <p class="section-sub">Haz clic en una imagen para verla.</p>
+
+      <div style="display:flex;gap:12px;flex-wrap:wrap;">
+        <button class="card visible" style="min-width:260px;cursor:pointer" data-image="https://drive.google.com/uc?export=view&id=1xPaqrSBADHyoigmlWjfOzqelXhZjTzgF">
+          <div style="display:flex;gap:12px;align-items:center"><div class="icon"><i class="fa-solid fa-image"></i></div>
+            <div>
+              <h3 style="margin:0">Foto 1</h3>
+              <p style="margin:6px 0 0;color:#dff7fb;font-size:0.92rem">Abrir imagen proveniente de Drive</p>
+            </div>
+          </div>
+        </button>
+
+        <button class="card visible" style="min-width:260px;cursor:pointer" data-image="https://drive.google.com/uc?export=view&id=1hbnC6Waz5MnXrzdQIppWfcA2_Pde_ms9">
+          <div style="display:flex;gap:12px;align-items:center"><div class="icon"><i class="fa-solid fa-photo-film"></i></div>
+            <div>
+              <h3 style="margin:0">Foto 2</h3>
+              <p style="margin:6px 0 0;color:#dff7fb;font-size:0.92rem">Abrir imagen proveniente de Drive</p>
+            </div>
+          </div>
+        </button>
+      </div>
+    </div>
+
+    <!-- Lightbox modal -->
+    <div id="lightbox" class="lightbox" role="dialog" aria-hidden="true" aria-label="Visor de imagen">
+      <div class="frame" role="document">
+        <button class="close" aria-label="Cerrar visor" id="lb-close"><i class="fa-solid fa-xmark"></i></button>
+        <iframe id="lb-frame" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" ></iframe>
+      </div>
+    </div>
+
+    <aside class="refs" aria-label="Referencias recomendadas">
+      <strong>Sugerencias y referencias útiles</strong>
+      <ul style="margin:12px 0 0 18px; color:var(--muted)">
+        <li><a href="https://www.ibm.com/es-es/topics/cybersecurity" target="_blank" rel="noopener">IBM — Qué es la ciberseguridad</a> .</li>
+        <li><a href="https://www.incibe.es/" target="_blank" rel="noopener">INCIBE — Instituto Nacional de Ciberseguridad (España)</a> .</li>
+        <li><a href="https://www.pantallasamigas.net/" target="_blank" rel="noopener">PantallasAmigas — recursos para menores y familias</a> .</li>
+      </ul>
+    </aside>
+
+    <footer>Hecho para clase</footer>
+  </div>
+
+  <script>
+    // Stagger reveal + dance variables más suaves
+    const gridCards = document.querySelectorAll('.grid .card');
+    const obs = new IntersectionObserver((entries, o) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          const idx = Array.from(gridCards).indexOf(entry.target);
+          entry.target.style.setProperty('--i', idx);
+          const baseRange = 8 + (idx % 3) * 4; // 8..16px
+          const range = baseRange + Math.round(Math.random()*6) + 'px';
+          const dur = (3.6 + Math.random()*2.2).toFixed(2) + 's';
+          const delay = (Math.random()*500).toFixed(0) + 'ms';
+          entry.target.style.setProperty('--dance-range', range);
+          entry.target.style.setProperty('--dance-dur', dur);
+          entry.target.style.animationDelay = delay;
+          entry.target.classList.add('visible');
+          entry.target.classList.add('dance');
+          o.unobserve(entry.target);
+        }
+      });
+    }, {threshold: 0.12});
+    gridCards.forEach(c => obs.observe(c));
+
+    // Lightbox logic centrado y bloqueo scroll
+    const lb = document.getElementById('lightbox');
+    const lbFrame = document.getElementById('lb-frame');
+    const lbClose = document.getElementById('lb-close');
+
+    document.querySelectorAll('[data-image]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const url = btn.dataset.image;
+        const allowed = [
+          'https://drive.google.com/uc?export=view&id=1xPaqrSBADHyoigmlWjfOzqelXhZjTzgF',
+          'https://drive.google.com/uc?export=view&id=1hbnC6Waz5MnXrzdQIppWfcA2_Pde_ms9'
+        ];
+        if(!allowed.includes(url)){
+          alert('Imagen no permitida');
+          return;
+        }
+        lbFrame.src = url; lb.classList.add('active'); lb.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden';
+      });
+      btn.setAttribute('tabindex','0');
+      btn.addEventListener('keydown', (e) => { if(e.key==='Enter' || e.key===' ') { e.preventDefault(); btn.click(); } });
+    });
+
+    function closeLB(){ lbFrame.src=''; lb.classList.remove('active'); lb.setAttribute('aria-hidden','true'); document.body.style.overflow=''; }
+    lbClose.addEventListener('click', closeLB);
+    document.addEventListener('keydown', (e) => { if(e.key === 'Escape' && lb.classList.contains('active')) closeLB(); });
+    lb.addEventListener('click', (e) => { if(e.target === lb) closeLB(); });
+
+    // 3D tilt y reacciones moderadas para evitar salto brusco
+    const allCards = document.querySelectorAll('.card');
+    allCards.forEach(card => {
+      // ensure smooth transitions by default
+      card.style.transition = 'transform .28s cubic-bezier(.2,.9,.2,1), box-shadow .28s';
+
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left; const y = e.clientY - rect.top;
+        const cx = rect.width/2; const cy = rect.height/2;
+        const dx = (x-cx)/cx; const dy = (y-cy)/cy;
+        // reduced multipliers to avoid extreme jumps
+        const rx = (dy * 6).toFixed(2); const ry = (-dx * 8).toFixed(2);
+        card.style.transform = `translateY(-18px) scale(1.06) rotateX(${rx}deg) rotateY(${ry}deg) rotateZ(-0.6deg)`;
+      });
+      card.addEventListener('mouseenter', (e) => {
+        card.style.transition='transform .12s cubic-bezier(.2,.9,.2,1), box-shadow .22s';
+        // fewer, smaller sparks
+        for(let i=0;i<3;i++) createSpark(card, 4 + Math.random()*6);
+      });
+      card.addEventListener('mouseleave', ()=>{ card.style.transition='transform .45s cubic-bezier(.2,.9,.2,1), box-shadow .35s'; card.style.transform=''; });
+
+      // subtle idle movement
+      const tinyShake = () => {
+        if(card.matches(':hover')){ setTimeout(tinyShake, 1000 + Math.random()*2000); return; }
+        const tx = (Math.random()*6 -3).toFixed(2);
+        const ty = (Math.random()*4 -2).toFixed(2);
+        const rot = (Math.random()*1 -0.5).toFixed(2);
+        card.animate([
+          { transform: `translate(${tx}px, ${ty}px) rotate(${rot}deg)` },
+          { transform: 'translate(0px, 0px) rotate(0deg)' }
+        ], { duration: 420 + Math.random()*600, easing: 'ease-in-out' });
+        setTimeout(tinyShake, 1500 + Math.random()*2600);
+      };
+      setTimeout(tinyShake, 400 + Math.random()*900);
+    });
+
+    // crear spark visual (reducido)
+    function createSpark(card, size){
+      const s = document.createElement('span'); s.className='spark';
+      const colors = ['#fff8c6','#ffd5e8','#bff8ff','#ffd27a'];
+      s.style.background = colors[Math.floor(Math.random()*colors.length)];
+      const rw = card.getBoundingClientRect();
+      const left = Math.random()*(rw.width-20) + 'px';
+      const top = Math.random()*(rw.height-20) + 'px';
+      s.style.left = left; s.style.top = top; s.style.opacity = '0';
+      card.appendChild(s);
+      s.style.width = s.style.height = (size||6) + 'px';
+      const anim = s.animate([
+        { opacity:0, transform:'scale(0.4) translateY(6px) rotate(0deg)' },
+        { opacity:1, transform:'scale(1.1) translateY(-6px) rotate(30deg)' },
+        { opacity:0, transform:'scale(0.6) translateY(-14px) rotate(60deg)' }
+      ], { duration: 380 + Math.random()*520, easing:'cubic-bezier(.2,.9,.2,1)' });
+      anim.onfinish = () => s.remove();
+    }
+
+    // reduced motion handling
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if(mq.matches){ document.querySelectorAll('.card').forEach(c=>{ c.style.animation='none'; c.style.transition='none'; }); document.querySelectorAll('.float-shape').forEach(s=>s.style.animation='none'); }
+  </script>
+</body>
+</html>
