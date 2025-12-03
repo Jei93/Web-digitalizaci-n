@@ -1,843 +1,578 @@
 <!doctype html>
 <html lang="es">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Demo Interactivo — Amenazas y Simulaciones (Ciberseguridad)</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Ciberseguridad — Animaciones Interactivas</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous">
+  
+  <style>
+    :root{
+      --accent-1: #00f0ff;
+      --accent-2: #ff3d9a;
+      --accent-3: #ffd400;
+      --bg-dark: #071020;
+      --card-radius: 16px;
+      --light: #eafcff;
+      --muted: #9fdcff;
+      --content-bg: linear-gradient(120deg, rgba(10,30,60,0.98), rgba(2,10,30,0.98));
+      --gradText: linear-gradient(90deg, #00f5ff, #7b61ff, #ff6a88, #ffd27a, #7effb2, #00f5ff);
+    }
+    *{box-sizing:border-box}
+    body{ margin:0; min-height:100vh; font-family:"Montserrat",system-ui; background:var(--bg-dark); color:var(--light); }
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    .page{ min-height:100vh; padding:48px 20px 88px; background:var(--content-bg); position:relative; overflow:hidden; perspective:1600px; }
+    .page::before{ content:""; position:fixed; inset:-25%; z-index:-2; background: conic-gradient(from 0deg, #ff004d, #ff8a00, #ffee00, #00ff9d, #00b2ff, #9a00ff, #ff004d); background-size:220% 220%; filter:blur(44px) saturate(200%); opacity:0.18; transform:scale(1.02); animation:spin 20s linear infinite; mix-blend-mode:screen; }
+    @keyframes spin{ 0%{transform:rotate(0)} 100%{transform:rotate(360deg)} }
 
-<style>
-  :root{
-    --bg-1:#071124; --bg-2:#071827; --card:#0b1b26; --glass: rgba(255,255,255,0.04);
-    --accent1:#00f0ff; --accent2:#ff6a88; --muted:#9fdcff; --success:#6ee7b7; --danger:#ff7b7b;
-    --radius:14px;
-  }
-  *{box-sizing:border-box}
-  body{font-family:Inter,system-ui,-apple-system; margin:0; background:linear-gradient(180deg,var(--bg-1),#041021); color:#e8fbff; -webkit-font-smoothing:antialiased}
-  .wrap{max-width:1200px;margin:28px auto;padding:20px}
-  header{display:flex;align-items:center;gap:18px}
-  h1{margin:0;font-size:1.8rem; background:linear-gradient(90deg,var(--accent1),#7b61ff,#ff6a88); -webkit-background-clip:text; color:transparent}
-  p.lead{margin:4px 0 18px;color:var(--muted)}
+    .float-shape{ position:absolute; width:220px; height:220px; border-radius:32px; filter:blur(40px); opacity:0.08; z-index:-1; }
+    .s1{ right:6%; top:4%; background:linear-gradient(45deg,#00f0ff66,#7b61ff66); animation:floaty 10s ease-in-out infinite; }
+    .s2{ left:4%; bottom:6%; background:linear-gradient(45deg,#ff6a8866,#ffd27a66); animation:floaty 14s ease-in-out infinite reverse; }
+    @keyframes floaty{ 0%{transform:translateY(0) rotate(0)} 50%{transform:translateY(-30px) rotate(8deg)} 100%{transform:translateY(0) rotate(0)} }
 
-  /* grid */
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
-  .card{
-    background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02));
-    padding:16px;border-radius:var(--radius); border:1px solid rgba(255,255,255,0.03);
-    box-shadow: 0 6px 18px rgba(2,8,15,0.6); cursor:pointer; transition:transform .18s ease, box-shadow .18s ease;
-    display:flex;align-items:flex-start;gap:12px;
-  }
-  .card:hover{ transform:translateY(-6px); box-shadow:0 18px 40px rgba(2,8,15,0.7) }
-  .card .icon{ width:52px;height:52px;border-radius:12px;background:linear-gradient(135deg,rgba(255,255,255,0.02), rgba(255,255,255,0.01)); display:grid;place-items:center; font-size:20px }
-  .card h3{margin:0;font-size:1.05rem}
-  .card p{margin:8px 0 0;color:#cfeff6;font-size:0.92rem}
+    header{ max-width:1100px; margin:0 auto 18px; padding:6px 18px; }
+    .title{ font-size:3.4rem; margin:0; line-height:1; font-weight:900; letter-spacing:-0.02em; background:var(--gradText); background-size:420% 100%; -webkit-background-clip:text; background-clip:text; color:transparent; animation:hueShift 4.6s linear infinite, titleBeams 3.6s ease-in-out infinite; text-shadow:0 12px 56px rgba(123,97,255,0.22); filter:saturate(1.55) contrast(1.05); }
+    @keyframes hueShift{ 0%{background-position:0% 50%} 100%{background-position:100% 50%} }
+    @keyframes titleBeams{ 0%,100%{filter:brightness(1) saturate(1.4)} 50%{filter:brightness(1.6) saturate(1.8) drop-shadow(0 18px 90px rgba(255,255,255,0.09))} }
+    .title::after{ content:""; display:block; height:10px; width:72%; margin-top:10px; background:linear-gradient(90deg,#00f5ff88,#7b61ff88,#ff6a8888); filter:blur(28px); opacity:0.98; border-radius:12px; }
+    .subtitle{ margin-top:12px; color:var(--muted); font-size:1rem; max-width:980px; }
 
-  /* modal */
-  .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:linear-gradient(180deg,rgba(0,0,0,0.6),rgba(0,0,0,0.7));z-index:9999;padding:18px}
-  .modal.show{display:flex}
-  .panel{width:min(1100px,98%);max-height:88vh;overflow:auto;background:linear-gradient(180deg,#08111a,#05121a);border-radius:12px;padding:18px;border:1px solid rgba(255,255,255,0.03);box-shadow:0 20px 60px rgba(0,0,0,0.8)}
-  .close-btn{position:absolute;right:22px;top:22px;background:transparent;border:0;color:#fff;font-size:18px;cursor:pointer}
-  .demo-title{display:flex;align-items:center;gap:12px;font-weight:700;font-size:1.2rem;margin-bottom:10px}
-  .demo-desc{color:var(--muted);margin-bottom:12px}
+    .grid{ max-width:1100px; margin:28px auto 0; display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:18px; }
 
-  /* email */
-  .email-card{background:#021425;padding:14px;border-radius:10px;border:1px solid rgba(255,255,255,0.03)}
-  .email-headers{display:flex;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:0.95rem}
-  .email-body{margin-top:10px;line-height:1.5;color:#e9ffff}
-  .email-body a{color:var(--accent1);text-decoration:underline}
+    .card{
+      padding:18px; border-radius:calc(var(--card-radius) + 4px); background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02)); border:1px solid rgba(255,255,255,0.035);
+      box-shadow:0 14px 36px rgba(2,10,20,0.52); color:var(--light); display:flex; flex-direction:column; gap:10px; min-height:120px;
+      transition:transform .28s cubic-bezier(.2,.9,.2,1), box-shadow .28s, filter .28s; transform-origin:center center; opacity:0; transform:translateY(14px) scale(.99);
+      position:relative; cursor:pointer; }
 
-  /* file / lists */
-  .file-list{display:grid;gap:8px}
-  .file-item{display:flex;align-items:center;gap:12px;padding:8px;border-radius:10px;background:rgba(255,255,255,0.01);border:1px solid rgba(255,255,255,0.02)}
-  .badge{padding:6px 8px;border-radius:8px;font-weight:700;background:rgba(255,255,255,0.03);font-size:0.85rem}
-  .btn{display:inline-flex;align-items:center;gap:8px;padding:8px 10px;border-radius:10px;border:0;cursor:pointer;font-weight:700}
-  .btn.primary{background:linear-gradient(90deg,var(--accent1),#7b61ff);color:#021}
-  .btn.warn{background:linear-gradient(90deg,#ff6a88,#ffb57a);color:#081}
-  .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted)}
-  .muted{color:var(--muted);font-size:0.92rem}
+    .card.visible{ opacity:1; transform:translateY(0) scale(1); animation:popIn .6s cubic-bezier(.2,.9,.2,1); animation-delay:calc(var(--i,0) * 60ms); }
+    @keyframes popIn{ 0%{opacity:0;transform:translateY(10px) scale(.992)} 100%{opacity:1;transform:translateY(0) scale(1)} }
 
-  /* counters */
-  .counter{font-weight:900;font-size:1.9rem;color:var(--accent1)}
+    @keyframes danceXy{ 0%{transform:translateX(calc(var(--dance-range,8px) * -1)) translateY(0) rotate(-0.6deg)} 50%{transform:translateX(calc(var(--dance-range,8px))) translateY(2px) rotate(0.8deg)} 100%{transform:translateX(calc(var(--dance-range,8px) * -1)) translateY(0) rotate(-0.6deg)} }
+    .card.dance{ animation:danceXy var(--dance-dur,4.8s) ease-in-out infinite; }
 
-  /* ddos chart */
-  #ddos-chart{width:100%;height:120px;background:linear-gradient(180deg,rgba(255,255,255,0.01),transparent);border-radius:8px;padding:8px}
+    .card:hover{ transform:translateY(-18px) scale(1.06) rotateZ(-0.8deg); box-shadow:0 46px 100px rgba(0,0,0,0.68), 0 0 38px rgba(255,106,136,0.06) inset; filter:brightness(1.04) saturate(1.08); z-index:6; }
+    .card::after{ content:""; position:absolute; left:-12%; top:-20px; width:124%; height:200%; pointer-events:none; background:radial-gradient(500px 120px at 20% 10%, rgba(255,255,255,0.04), transparent 12%); transform:translateY(6px) rotate(2deg); opacity:0; transition:opacity .32s, transform .5s; border-radius:inherit; mix-blend-mode:screen; }
+    .card:hover::after{ opacity:1; transform:translateY(-6px) rotate(-0.5deg); }
 
-  /* supply chain svg */
-  #supply-svg{width:100%;height:220px;overflow:visible}
+    .icon{ width:54px; height:54px; display:inline-flex; align-items:center; justify-content:center; border-radius:12px; background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02)); border:1px solid rgba(255,255,255,0.03); }
+    .icon i{ color:var(--accent-1); transition:transform .32s cubic-bezier(.2,.9,.2,1), color .28s, text-shadow .28s; font-size:20px; }
+    .card:hover .icon i{ transform:translateY(-8px) scale(1.12) rotate(-8deg); color:var(--accent-2); text-shadow:0 8px 24px rgba(255,106,136,0.14); }
 
-  /* data leak table */
-  table{width:100%;border-collapse:collapse}
-  th,td{padding:8px;border-bottom:1px solid rgba(255,255,255,0.03);text-align:left}
-  .pii{font-weight:600}
-  .masked{color:var(--muted)}
+    .card h3{ margin:0; font-size:1.05rem; font-weight:900; letter-spacing:0.005em; background:linear-gradient(90deg,#ffd27a,#ff6a88,#7b61ff); -webkit-background-clip:text; background-clip:text; color:transparent; filter:saturate(1.25); text-shadow:0 6px 24px rgba(255,106,136,0.06); }
+    .card p{ margin:0; color:#dff7fb; line-height:1.45; font-size:0.95rem; }
 
-  /* small helpers */
-  .row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
-  .col{flex:1}
-  .note{font-size:0.9rem;color:var(--muted);margin-top:8px}
-  .demo-footer{margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+    .section-title{ font-size:1.6rem; margin:36px auto 8px; max-width:1100px; text-transform:uppercase; letter-spacing:0.08em; font-weight:900; background:linear-gradient(90deg,#00f5ff,#7b61ff,#ff6a88,#ffd27a,#7effb2); -webkit-background-clip:text; background-clip:text; color:transparent; text-shadow:0 10px 48px rgba(123,97,255,0.16); text-align:center; filter:saturate(1.45); }
+    .section-sub{ max-width:1100px; margin:0 auto 18px; color:rgba(200,240,255,0.95); text-align:center }
 
-  /* responsive tweaks */
-  @media(max-width:720px){ .panel{padding:14px} .card{padding:12px} }
-</style>
+    /* MODAL ÚNICO (GARANTÍA DE NO CONFLICTOS) */
+    .universal-lightbox{ 
+      position:fixed; inset:0; display:none !important; align-items:center; justify-content:center; 
+      background:rgba(2,6,12,0.95); z-index:9999; padding:24px; backdrop-filter:blur(10px); 
+    }
+    .universal-lightbox.active{ display:flex !important; }
+    .universal-lightbox .frame{ 
+      width:min(900px,95%); max-height:min(640px,90%); background:linear-gradient(180deg,#0a0f1a,#060a12); 
+      border-radius:16px; overflow:hidden; position:relative; 
+      box-shadow:0 40px 140px rgba(0,0,0,0.85); animation:lbPop .28s cubic-bezier(.2,.9,.2,1); 
+      display:flex; flex-direction:column; border:1px solid rgba(255,255,255,0.08); 
+    }
+    @keyframes lbPop{ from{transform:scale(.92);opacity:0} to{transform:scale(1);opacity:1} }
+    .universal-lightbox .close{ 
+      position:absolute; right:14px; top:14px; z-index:10; 
+      background:linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02)); 
+      color:#fff; border-radius:10px; padding:12px 14px; border:0; cursor:pointer; 
+      backdrop-filter:blur(6px); box-shadow:0 8px 30px rgba(0,0,0,0.6); 
+      font-size:1.2rem; min-width:44px; min-height:44px; 
+    }
+    .universal-lightbox .content-title{ 
+      margin:0; padding:18px 24px; background:rgba(255,255,255,0.02); 
+      border-bottom:1px solid rgba(255,255,255,0.06); font-size:1.3rem; 
+      font-weight:900; letter-spacing:0.05em; 
+      background:linear-gradient(90deg,#00f5ff,#7b61ff); -webkit-background-clip:text; background-clip:text; color:transparent; 
+    }
+    .universal-lightbox .content-area{ 
+      flex:1; padding:24px; display:flex; align-items:center; justify-content:center; 
+      position:relative; overflow:hidden; min-height:400px; 
+    }
+
+    /* ESCENARIOS OCULTOS (PRE-RENDERIZADOS) */
+    .threat-scenario-data{ display:none !important; }
+
+    .refs{ max-width:1100px; margin:28px auto 0; padding:18px; border-radius:12px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.03); color:var(--muted); }
+    .refs a{ color:var(--accent-1); text-decoration:underline; }
+
+    @media (max-width:780px){ .title{font-size:1.9rem} .card{padding:14px} .icon{width:48px;height:48px} }
+  </style>
 </head>
 <body>
-  <div class="wrap" role="main">
+  <div class="page" role="main">
+    <div class="float-shape s1" aria-hidden="true"></div>
+    <div class="float-shape s2" aria-hidden="true"></div>
+
     <header>
-      <div style="width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,var(--accent1),#7b61ff);display:grid;place-items:center;font-weight:800;color:#021">CS</div>
-      <div>
-        <h1>Simulador Interactivo — Amenazas (Demo)</h1>
-        <p class="lead">Haz clic en cualquier tarjeta para ver una demo representativa y práctica. <strong>Solo demo educativo — no ejecuta código dañino.</strong></p>
-      </div>
+      <h1 class="title">Ciberseguridad</h1>
+      <p class="subtitle">Definición, principales amenazas y decálogo de buenas prácticas.</p>
     </header>
 
-    <section aria-label="Amenazas principales" style="margin-top:16px">
-      <div class="grid">
-        <div class="card" data-demo="phishing" tabindex="0" role="button" aria-pressed="false">
-          <div class="icon"><i class="fa-regular fa-envelope-open-text"></i></div>
-          <div>
-            <h3>Phishing — correo simulado</h3>
-            <p>Correo realista con análisis automático de URL y diferencias entre texto y enlace.</p>
-          </div>
-        </div>
+    <section aria-label="Principales amenazas" class="content">
+      <h2 class="section-title">PRINCIPALES AMENAZAS</h2>
+      <p class="section-sub">Haz clic en cada amenaza para ver un ejemplo visual animado.</p>
 
-        <div class="card" data-demo="malware" tabindex="0">
+      <div class="grid" id="threats">
+        <!-- DATA-SCENARIO para identificar contenido -->
+        <article class="card dance" data-scenario="phishing" data-type="threat" role="button" tabindex="0">
+          <div class="icon"><i class="fa-regular fa-envelope-open"></i></div>
+          <h3>PHI$H!NG</h3>
+          <p>Mensajes falsos que buscan engañar para robar credenciales o datos bancarios.</p>
+        </article>
+
+        <article class="card dance" data-scenario="malware" data-type="threat" role="button" tabindex="0">
           <div class="icon"><i class="fa-solid fa-bug"></i></div>
-          <div>
-            <h3>Malware — scanner & cuarentena</h3>
-            <p>Escaneo de archivos, detección, cuarentena visual y lista de archivos seguros.</p>
-          </div>
-        </div>
+          <h3>MΛLWΛRE</h3>
+          <p>Software malicioso: virus, troyanos y spyware que dañan o espían dispositivos.</p>
+        </article>
 
-        <div class="card" data-demo="ransomware" tabindex="0">
+        <article class="card dance" data-scenario="ransomware" data-type="threat" role="button" tabindex="0">
           <div class="icon"><i class="fa-solid fa-lock"></i></div>
-          <div>
-            <h3>Ransomware — simulación de cifrado</h3>
-            <p>Animación de cifrado de ficheros (demo). Muestra importancia de backups.</p>
-          </div>
-        </div>
+          <h3>RΔNS0MWΔRE</h3>
+          <p>Malware que cifra datos y exige rescate; mantener backups reduce impacto.</p>
+        </article>
 
-        <div class="card" data-demo="ddos" tabindex="0">
+        <article class="card dance" data-scenario="ddos" data-type="threat" role="button" tabindex="0">
           <div class="icon"><i class="fa-solid fa-server"></i></div>
-          <div>
-            <h3>DDoS — contador y gráfico</h3>
-            <p>Gráfico en tiempo real que simula aumento de requests / s y mitigación básica.</p>
-          </div>
-        </div>
+          <h3>DDO$</h3>
+          <p>Ataques que saturan servidores con tráfico falso para interrumpir servicios.</p>
+        </article>
 
-        <div class="card" data-demo="bruteforce" tabindex="0">
+        <article class="card dance" data-scenario="bruteforce" data-type="threat" role="button" tabindex="0">
           <div class="icon"><i class="fa-solid fa-key"></i></div>
-          <div>
-            <h3>Fuerza Bruta — intentos & bloqueo</h3>
-            <p>Simulación de intentos automáticos, bloqueo temporal y 2FA recomendada.</p>
-          </div>
-        </div>
+          <h3>FUERZA BRUTA</h3>
+          <p>Intentos automatizados para adivinar contraseñas débiles mediante muchas combinaciones.</p>
+        </article>
 
-        <div class="card" data-demo="social" tabindex="0">
+        <article class="card dance" data-scenario="social" data-type="threat" role="button" tabindex="0">
           <div class="icon"><i class="fa-solid fa-user-secret"></i></div>
-          <div>
-            <h3>Ingeniería Social — llamadas y chat</h3>
-            <p>Ejemplo de mensaje y checklist para detectar suplantación social.</p>
-          </div>
-        </div>
+          <h3>INGENIERÍA SOCIAL</h3>
+          <p>Manipulación psicológica para obtener acceso o información.</p>
+        </article>
 
-        <div class="card" data-demo="supply" tabindex="0">
-          <div class="icon"><i class="fa-solid fa-sitemap"></i></div>
-          <div>
-            <h3>Supply-Chain — nodo comprometido</h3>
-            <p>Gráfico de dependencias: al comprometer un nodo verás propagación visual del impacto.</p>
-          </div>
-        </div>
+        <article class="card dance" data-scenario="supply" data-type="threat" role="button" tabindex="0">
+          <div class="icon"><i class="fa-solid fa-truck-fast"></i></div>
+          <h3>SUPPLY CHA!N</h3>
+          <p>Comprometer proveedores o software de terceros para infiltrar plataformas legítimas.</p>
+        </article>
 
-        <div class="card" data-demo="cloud" tabindex="0">
+        <article class="card dance" data-scenario="cloud" data-type="threat" role="button" tabindex="0">
           <div class="icon"><i class="fa-solid fa-cloud"></i></div>
-          <div>
-            <h3>Nube — bucket público/privado</h3>
-            <p>Escanea permisos y muestra riesgo si el bucket es público.</p>
-          </div>
-        </div>
+          <h3>NUBE</h3>
+          <p>Errores de configuración en cloud que permiten fugas de datos o accesos no autorizados.</p>
+        </article>
 
-        <div class="card" data-demo="iot" tabindex="0">
+        <article class="card dance" data-scenario="iot" data-type="threat" role="button" tabindex="0">
           <div class="icon"><i class="fa-solid fa-wifi"></i></div>
-          <div>
-            <h3>IoT — inventario y parches</h3>
-            <p>Lista de dispositivos, niveles de riesgo y botón "Parchear todo".</p>
-          </div>
-        </div>
+          <h3>IØT</h3>
+          <p>Dispositivos conectados sin protecciones que se convierten en puerta de entrada para atacantes.</p>
+        </article>
 
-        <div class="card" data-demo="dataleak" tabindex="0">
+        <article class="card dance" data-scenario="leak" data-type="threat" role="button" tabindex="0">
           <div class="icon"><i class="fa-solid fa-database"></i></div>
-          <div>
-            <h3>Data Leak — datos expuestos</h3>
-            <p>Tabla con PII parcialmente enmascarada y herramienta para generar e-mail de notificación.</p>
-          </div>
-        </div>
+          <h3>DATA LEAK</h3>
+          <p>Exposición o robo de información sensible que puede derivar en fraude o suplantación.</p>
+        </article>
       </div>
     </section>
-  </div>
 
-  <!-- Modal único -->
-  <div id="modal" class="modal" aria-hidden="true" role="dialog" aria-modal="true">
-    <div class="panel" role="document" aria-live="polite">
-      <button class="close-btn" id="closeModal" aria-label="Cerrar demo"><i class="fa-solid fa-xmark"></i></button>
-      <div id="modalContent"></div>
-      <div class="demo-footer">
-        <div class="muted">Demo educativo — no realiza acciones en tu dispositivo.</div>
-      </div>
-    </div>
-  </div>
-
-<script>
-/* ----------------------
-  Helpers y utilidades
-   ---------------------- */
-const modal = document.getElementById('modal');
-const modalContent = document.getElementById('modalContent');
-const closeModalBtn = document.getElementById('closeModal');
-
-function openModal(html){
-  modalContent.innerHTML = html;
-  modal.classList.add('show'); modal.setAttribute('aria-hidden','false');
-  // focus first focusable
-  setTimeout(()=>{ const f = modal.querySelector('button, a, input, textarea'); if(f) f.focus(); },50);
-}
-function closeModal(){
-  modal.classList.remove('show'); modal.setAttribute('aria-hidden','true'); modalContent.innerHTML='';
-}
-closeModalBtn.addEventListener('click', closeModal);
-modal.addEventListener('click', (e)=>{ if(e.target===modal) closeModal(); });
-document.addEventListener('keydown', e=>{ if(e.key==='Escape' && modal.classList.contains('show')) closeModal(); });
-
-/* Attach tarjetas */
-document.querySelectorAll('[data-demo]').forEach(el=>{
-  el.addEventListener('click', ()=> openDemo(el.dataset.demo));
-  el.addEventListener('keydown', e=>{ if(e.key==='Enter' || e.key===' ') openDemo(el.dataset.demo); });
-});
-
-/* Small toast */
-function toast(msg, t=2200){
-  const d = document.createElement('div'); d.style.position='fixed'; d.style.right='20px'; d.style.bottom='20px';
-  d.style.background='#072229'; d.style.padding='10px 12px'; d.style.borderRadius='10px'; d.style.boxShadow='0 10px 30px rgba(0,0,0,0.6)';
-  d.style.color='#eafcff'; d.textContent = msg; document.body.appendChild(d);
-  setTimeout(()=>{ d.style.transition='opacity .5s'; d.style.opacity='0'; }, t); setTimeout(()=> d.remove(), t+700);
-}
-
-/* safe random words for demo */
-const samplePasswords = ['123456','password','qwerty','welcome','letmein','admin','secret123','2025pass','change_me','P@ssw0rd!'];
-
-/* ----------------------
-   Demos
-   ---------------------- */
-function openDemo(type){
-  switch(type){
-    case 'phishing': openModal(phishingHTML()); attachPhishingLogic(); break;
-    case 'malware': openModal(malwareHTML()); attachMalwareLogic(); break;
-    case 'ransomware': openModal(ransomwareHTML()); attachRansomLogic(); break;
-    case 'ddos': openModal(ddosHTML()); attachDdosLogic(); break;
-    case 'bruteforce': openModal(bruteforceHTML()); attachBruteforceLogic(); break;
-    case 'social': openModal(socialHTML()); attachSocialLogic(); break;
-    case 'supply': openModal(supplyHTML()); attachSupplyLogic(); break;
-    case 'cloud': openModal(cloudHTML()); attachCloudLogic(); break;
-    case 'iot': openModal(iotHTML()); attachIotLogic(); break;
-    case 'dataleak': openModal(dataleakHTML()); attachDataLeakLogic(); break;
-    default: openModal('<h2>Demo</h2><p>No implementado</p>');
-  }
-}
-
-/* =========================
-   PHISHING - HTML + logic
-   ========================= */
-function phishingHTML(){
-  const now = new Date().toLocaleString();
-  return `
-    <div class="demo-title"><i class="fa-regular fa-envelope-open-text"></i> PHISHING — Correo simulado</div>
-    <div class="demo-desc">Aquí tienes un correo realista: observa el texto mostrado y el enlace real. El analizador te dirá si hay discrepancias comunes (dominio distinto, subdominio engañoso, punycode, etc.).</div>
-
-    <div class="email-card" aria-live="polite">
-      <div class="email-headers">
-        <div><strong>De:</strong> soporte@banco-oficial.com</div>
-        <div><strong>Para:</strong> tú@ejemplo.com</div>
-        <div><strong>Fecha:</strong> ${now}</div>
-      </div>
-
-      <div class="email-body">
-        <p>Hola cliente,</p>
-        <p>Hemos detectado actividad inusual en su cuenta. Para evitar el bloqueo, <strong>verifique su cuenta</strong> en las próximas 24h pulsando el siguiente enlace:</p>
-        <p><a href="https://banco-oficial.login-secure-verify.example.com/verify?user=abc" id="phish-link">https://banco-oficial.com/verify</a></p>
-        <p>Si no realiza esta acción su cuenta será temporalmente restringida.</p>
-        <p>Atentamente,<br>Equipo de Soporte</p>
-      </div>
-
-      <div style="margin-top:12px" class="row">
-        <button id="analyzeLink" class="btn primary"><i class="fa-solid fa-magnifying-glass"></i> Analizar enlace</button>
-        <button id="markPhish" class="btn ghost"><i class="fa-solid fa-flag"></i> Marcar como phishing</button>
-        <div style="margin-left:auto" class="badge">DEMO</div>
-      </div>
-
-      <div id="phish-result" style="margin-top:12px"></div>
-    </div>
-
-    <div class="note">Recomendación: nunca abras enlaces desde correos no esperados. Verifica dominio, HTTPS y sustituye el enlace por escribir la URL en el navegador manualmente.</div>
-  `;
-}
-
-/* Phishing logic: compara texto del enlace con href real y detecta diferencias simples */
-function attachPhishingLogic(){
-  const link = document.getElementById('phish-link');
-  const result = document.getElementById('phish-result');
-  document.getElementById('analyzeLink').addEventListener('click', ()=>{
-    const shown = link.textContent.trim();
-    const href = link.getAttribute('href');
-    const parsedShown = extractDomain(shown);
-    const parsedHref = extractDomain(href);
-    const issues = [];
-
-    if(parsedShown !== parsedHref) issues.push(`Dominio visible (${parsedShown}) difiere del dominio real (${parsedHref}).`);
-    if(href.includes('login-secure') || href.includes('verify') || href.includes('secure')) issues.push('URL contiene palabras que suelen usarse para engañar (login, secure, verify).');
-    if(href.includes('xn--')) issues.push('Posible uso de punycode -> dominio punycode (carácter Unicode similar a ASCII).');
-
-    if(issues.length===0){
-      result.innerHTML = `<div class="muted">Analizador: no se detectaron discrepancias evidentes (demo). Aun así, verifica certificado HTTPS y dominio principal manualmente.</div>`;
-    } else {
-      result.innerHTML = `<div style="padding:10px;border-radius:8px;background:rgba(255,120,120,0.06);border:1px solid rgba(255,80,80,0.06)"><strong style="color:var(--danger)">Posibles problemas:</strong><ul style="margin:8px 0 0 18px;color:#ffd7d7">${issues.map(i=>`<li>${i}</li>`).join('')}</ul></div>`;
-    }
-    toast('Análisis completado (demo)');
-  });
-
-  document.getElementById('markPhish').addEventListener('click', ()=>{
-    link.style.textDecoration='line-through'; link.style.color='#ff9fb3';
-    toast('Correo marcado como phishing (demo)');
-  });
-}
-
-/* domain extractor simple */
-function extractDomain(url){
-  try{
-    if(!url.includes('://')) url = 'https://'+url;
-    const u = new URL(url);
-    return u.hostname.replace(/^www\./,'');
-  }catch(e){ return url; }
-}
-
-/* =========================
-   MALWARE - HTML + logic
-   ========================= */
-function malwareHTML(){
-  return `
-    <div class="demo-title"><i class="fa-solid fa-bug"></i> MALWARE — Escáner y cuarentena</div>
-    <div class="demo-desc">Lista de archivos detectados en un correo/descarga. Pulsa "Analizar" para simular un motor antivirus y enviar a cuarentena.</div>
-
-    <div class="row" style="gap:16px">
-      <div class="col">
-        <div class="file-list" id="fileList">
-          <div class="file-item"><div style="width:36px;height:36;border-radius:8px;background:#10212a;display:grid;place-items:center"><i class="fa-solid fa-file"></i></div><div style="flex:1"><strong>invoice_v1.exe</strong><div class="muted">1.2 MB · ejecutable</div></div><div><button class="btn primary" data-file="invoice_v1.exe">Analizar</button></div></div>
-          <div class="file-item"><div style="width:36px;height:36;border-radius:8px;background:#10212a;display:grid;place-items:center"><i class="fa-solid fa-file-zipper"></i></div><div style="flex:1"><strong>docs_backup.zip</strong><div class="muted">2.1 MB · zip</div></div><div><button class="btn ghost" data-file="docs_backup.zip">Analizar</button></div></div>
-          <div class="file-item"><div style="width:36px;height:36;border-radius:8px;background:#10212a;display:grid;place-items:center"><i class="fa-solid fa-file-code"></i></div><div style="flex:1"><strong>update.msi</strong><div class="muted">0.9 MB · instalador</div></div><div><button class="btn ghost" data-file="update.msi">Analizar</button></div></div>
-        </div>
-      </div>
-
-      <div style="width:300px">
-        <div style="padding:12px;border-radius:10px;background:rgba(255,255,255,0.01);border:1px solid rgba(255,255,255,0.02)">
-          <div class="muted">Cuarentena</div>
-          <div id="quarantine" style="margin-top:8px"></div>
-          <div style="margin-top:12px">
-            <button id="viewReport" class="btn ghost"><i class="fa-solid fa-file-lines"></i> Ver informe (demo)</button>
+    <!-- ESCENARIOS PRE-RENDERIZADOS (ocultos del DOM) -->
+    <div class="threat-scenario-data">
+      <!-- Phishing -->
+      <div id="scenario-phishing">
+        <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;">
+          <div class="scenario-element" style="font-size:4rem;animation:scenarioPulse 2s infinite;"><i class="fa-regular fa-envelope-open" style="color:var(--accent-1);"></i></div>
+          <div class="scenario-element" style="font-size:3rem;animation:scenarioPulse 2s infinite .3s;"><i class="fa-solid fa-fish" style="color:var(--accent-2);"></i></div>
+          <div style="position:relative;width:200px;height:8px;background:linear-gradient(90deg,var(--accent-1),var(--accent-2));border-radius:4px;overflow:hidden;">
+            <div style="position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,var(--light),transparent);animation:swipe 2s infinite;"></div>
           </div>
+          <p style="color:var(--muted);text-align:center;margin-top:20px;">Mensaje legítimo → Anzuelo oculto → Robo de credenciales</p>
+          <style>@keyframes swipe{0%{left:-100%}100%{left:100%}} @keyframes scenarioPulse{0%,100%{opacity:.6;transform:scale(1)}50%{opacity:1;transform:scale(1.1)}}</style>
+        </div>
+      </div>
+
+      <!-- Malware -->
+      <div id="scenario-malware">
+        <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;position:relative;">
+          <div class="scenario-element" style="font-size:5rem;z-index:2;"><i class="fa-solid fa-file" style="color:var(--accent-1);"></i></div>
+          <div class="scenario-element" style="position:absolute;animation:bugSpread 3s infinite;"><i class="fa-solid fa-bug" style="color:var(--accent-2);font-size:3rem;"></i></div>
+          <div style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);color:var(--muted);">Archivo infectado libera malware</div>
+          <style>@keyframes bugSpread{0%{transform:scale(0);opacity:0}50%{transform:scale(2.5);opacity:.8}100%{transform:scale(4);opacity:0}}</style>
+        </div>
+      </div>
+
+      <!-- Ransomware -->
+      <div id="scenario-ransomware">
+        <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;gap:15px;">
+          ${[...Array(6)].map((_,i) => `
+            <div class="scenario-element" style="width:60px;height:80px;background:linear-gradient(180deg,#2a4a7a,#1a2a4a);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;animation:lockFiles 2s infinite;animation-delay:${i*.2}s;">
+              <i class="fa-solid fa-file" style="color:var(--accent-1);"></i>
+            </div>
+          `).join('')}
+          <div style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);color:var(--muted);">Cifrado progresivo de archivos</div>
+          <style>@keyframes lockFiles{0%,100%{background:linear-gradient(180deg,#2a4a7a,#1a2a4a);transform:scale(1)}50%{background:linear-gradient(180deg,var(--accent-2),#7a1a4a);transform:scale(.95) rotateY(180deg)}55%{transform:scale(1) rotateY(0deg)}}</style>
+        </div>
+      </div>
+
+      <!-- DDoS -->
+      <div id="scenario-ddos">
+        <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;position:relative;">
+          <div class="scenario-element" style="font-size:4rem;z-index:2;"><i class="fa-solid fa-server" style="color:var(--accent-1);"></i></div>
+          ${[...Array(12)].map((_,i) => `
+            <div class="scenario-element" style="position:absolute;width:4px;height:40px;background:linear-gradient(180deg,var(--accent-3),var(--accent-2));border-radius:2px;transform-origin:bottom;animation:ddosPulse 1s infinite;animation-delay:${i*.08}s;transform:translate(-50%,-100%) rotate(${i*30}deg);"></div>
+          `).join('')}
+          <div style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);color:var(--muted);">Múltiples fuentes saturando el servidor</div>
+          <style>@keyframes ddosPulse{0%{opacity:0;transform:translate(-50%,-100%) rotate(var(--rotation)) scaleY(0)}50%{opacity:1;transform:translate(-50%,-100%) rotate(var(--rotation)) scaleY(1)}100%{opacity:0;transform:translate(-50%,-120%) rotate(var(--rotation)) scaleY(1.2)}}</style>
+        </div>
+      </div>
+
+      <!-- Brute Force -->
+      <div id="scenario-bruteforce">
+        <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;">
+          <div class="scenario-element" style="font-size:4rem;"><i class="fa-solid fa-lock" style="color:var(--accent-1);"></i></div>
+          <div style="font-size:2rem;font-weight:900;font-family:monospace;letter-spacing:.2em;height:1.2em;display:flex;align-items:center;color:var(--accent-3);">
+            <span class="scenario-element" style="animation:numbersChange .8s steps(10) infinite;"></span>
+          </div>
+          <div style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);color:var(--muted);">Probando combinaciones automáticamente</div>
+          <style>@keyframes numbersChange{0%{content:'0000'}25%{content:'1234'}50%{content:'5678'}75%{content:'9999'}100%{content:'0000'}} .scenario-bruteforce span::after{content:'0000';animation:numbersChange .8s steps(10) infinite}</style>
+        </div>
+      </div>
+
+      <!-- Social Engineering -->
+      <div id="scenario-social">
+        <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;gap:30px;">
+          <div class="scenario-element" style="font-size:3rem;"><i class="fa-solid fa-user" style="color:var(--accent-1);"></i></div>
+          <div class="scenario-element" style="font-size:2rem;animation:socialTalk 2s infinite;"><i class="fa-solid fa-comment-dots" style="color:var(--accent-2);"></i></div>
+          <div class="scenario-element" style="font-size:3rem;opacity:.6;"><i class="fa-solid fa-user-shield" style="color:var(--accent-3);"></i></div>
+          <div style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);color:var(--muted);">Manipulación para obtener acceso</div>
+          <style>@keyframes socialTalk{0%,100%{transform:translateX(0)}25%{transform:translateX(10px)}50%{transform:translateX(-10px)}75%{transform:translateX(5px)}}</style>
+        </div>
+      </div>
+
+      <!-- Supply Chain -->
+      <div id="scenario-supply">
+        <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;gap:20px;">
+          ${[...Array(3)].map((_,i) => `
+            <div class="scenario-element" style="font-size:3rem;animation:supplyInfect 3s infinite;animation-delay:${i*.5}s;"><i class="fa-solid fa-box" style="color:var(--accent-1);"></i></div>
+          `).join('')}
+          <div style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);color:var(--muted);">Contaminación propagándose por la cadena</div>
+          <style>@keyframes supplyInfect{0%,100%{filter:brightness(1)}50%{filter:brightness(1.5) hue-rotate(180deg) drop-shadow(0 0 10px var(--accent-2))}}</style>
+        </div>
+      </div>
+
+      <!-- Cloud -->
+      <div id="scenario-cloud">
+        <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;">
+          <div class="scenario-element" style="font-size:5rem;position:relative;">
+            <i class="fa-solid fa-cloud" style="color:var(--accent-1);"></i>
+            <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:2rem;animation:gearSpin 2s linear infinite;"><i class="fa-solid fa-gear" style="color:var(--accent-2);"></i></div>
+          </div>
+          <div class="scenario-element" style="display:flex;gap:10px;animation:dataLeak 1.5s infinite;">
+            ${[...Array(3)].map(() => `<div style="width:8px;height:8px;background:var(--accent-3);border-radius:50%;"></div>`).join('')}
+          </div>
+          <div style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);color:var(--muted);">Configuración incorrecta goteando datos</div>
+          <style>@keyframes gearSpin{from{transform:translate(-50%,-50%) rotate(0deg)}to{transform:translate(-50%,-50%) rotate(360deg)}} @keyframes dataLeak{0%{transform:translateY(0);opacity:1}100%{transform:translateY(40px);opacity:0}}</style>
+        </div>
+      </div>
+
+      <!-- IoT -->
+      <div id="scenario-iot">
+        <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:30px;">
+          <div style="display:flex;gap:20px;align-items:center;">
+            <div class="scenario-element" style="font-size:2rem;"><i class="fa-solid fa-mobile-screen" style="color:var(--accent-1);"></i></div>
+            <div class="scenario-element" style="font-size:2rem;"><i class="fa-solid fa-tv" style="color:var(--accent-1);"></i></div>
+            <div class="scenario-element" style="font-size:2rem;"><i class="fa-solid fa-camera" style="color:var(--accent-1);"></i></div>
+          </div>
+          <div class="scenario-element" style="font-size:3rem;animation:routerPulse 1.5s infinite;"><i class="fa-solid fa-wifi" style="color:var(--accent-2);"></i></div>
+          <div style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);color:var(--muted);">Dispositivos vulnerables conectados</div>
+          <style>@keyframes routerPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.2) drop-shadow(0 0 15px var(--accent-2))}}</style>
+        </div>
+      </div>
+
+      <!-- Data Leak -->
+      <div id="scenario-leak">
+        <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;position:relative;">
+          <div class="scenario-element" style="font-size:5rem;"><i class="fa-solid fa-database" style="color:var(--accent-1);"></i></div>
+          <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:100px;height:2px;background:var(--accent-2);animation:crackGrow 2s infinite;"></div>
+          ${[...Array(8)].map((_,i) => `
+            <div class="scenario-element" style="position:absolute;width:6px;height:6px;background:var(--accent-3);border-radius:50%;animation:dataDrop 2s infinite;animation-delay:${i*.15}s;left:${40+i*5}%;top:55%;"></div>
+          `).join('')}
+          <div style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);color:var(--muted);">Fuga de datos a través de brechas</div>
+          <style>@keyframes crackGrow{0%,100%{width:0px;opacity:0}50%{width:100px;opacity:1}} @keyframes dataDrop{0%{transform:translateY(0);opacity:1}100%{transform:translateY(60px);opacity:0}}</style>
         </div>
       </div>
     </div>
-    <div class="note">Acción simulada: el botón "Analizar" ejecuta un proceso demo que puede marcar un archivo como malicioso y moverlo a cuarentena.</div>
-  `;
-}
 
-function attachMalwareLogic(){
-  const fileList = document.getElementById('fileList');
-  const quarantine = document.getElementById('quarantine');
+    <!-- MODAL ÚNICO (SIN CONFLICTOS) -->
+    <div id="lightbox-modal" class="universal-lightbox" role="dialog" aria-hidden="true">
+      <div class="frame">
+        <button class="close" id="modal-close" aria-label="Cerrar ventana"><i class="fa-solid fa-xmark"></i></button>
+        <h3 class="content-title" id="modal-title">Título</h3>
+        <div class="content-area" id="modal-content"></div>
+      </div>
+    </div>
 
-  fileList.querySelectorAll('button[data-file]').forEach(btn=>{
-    btn.addEventListener('click', async ()=>{
-      const name = btn.dataset.file;
-      btn.disabled = true; btn.textContent = 'Escaneando...';
-      // animación demo
-      await new Promise(r => setTimeout(r, 1000 + Math.random()*900));
-      // heurística demo: .exe o .msi -> malicioso; zip -> limpio (demo)
-      const malicious = name.endsWith('.exe') || name.endsWith('.msi');
-      if(malicious){
-        btn.textContent = 'Peligroso';
-        btn.classList.remove('primary'); btn.classList.add('warn');
-        // mover a cuarentena
-        const item = document.createElement('div'); item.style.padding='6px 8px'; item.style.marginTop='6px'; item.style.borderRadius='8px';
-        item.style.background='rgba(255,120,120,0.04)'; item.innerHTML = `<strong>${name}</strong> <div class="muted">Detectado como malicioso (demo)</div>`;
-        quarantine.appendChild(item);
-        toast(`${name} enviado a cuarentena (demo)`);
-      } else {
-        btn.textContent = 'OK';
-        btn.classList.remove('primary'); btn.classList.add('ghost');
-        toast(`${name} parece limpio (demo)`);
+    <!-- RESTO DEL CONTENIDO -->
+    <div class="header-decal" style="max-width:1100px;margin:32px auto 0;padding:6px 18px;">
+      <h2 class="section-title">DECÁLOGO — Buenas prácticas</h2>
+      <p class="section-sub">Diez acciones sencillas y efectivas para proteger cuentas, dispositivos y datos.</p>
+    </div>
+
+    <section class="grid" aria-label="Decálogo" id="rules">
+      <article class="card dance"><div class="icon"><i class="fa-solid fa-lock"></i></div><h3>CONTRASEÑAS</h3><p>Usa contraseñas largas y únicas; utiliza frases y un gestor cuando sea posible.</p></article>
+      <!-- ... resto de cards ... -->
+      <article class="card dance"><div class="icon"><i class="fa-solid fa-chalkboard-user"></i></div><h3>INFÓRMATE</h3><p>Consulta a responsables TI o fuentes oficiales ante dudas o incidentes.</p></article>
+    </section>
+
+    <!-- VISOR DE FOTOS (ahora usa el mismo modal) -->
+    <div style="max-width:1100px;margin:42px auto 0;padding:6px 18px;">
+      <h2 class="section-title">VISOR DE FOTOS</h2>
+      <p class="section-sub">Haz clic en una imagen para verla.</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;">
+        <button class="card visible" style="min-width:260px;cursor:pointer" data-image="https://drive.google.com/uc?export=view&id=1xPaqrSBADHyoigmlWjfOzqelXhZjTzgF" data-type="image">
+          <div style="display:flex;gap:12px;align-items:center"><div class="icon"><i class="fa-solid fa-image"></i></div><div><h3 style="margin:0">Foto 1</h3><p style="margin:6px 0 0;color:#dff7fb;font-size:0.92rem">Abrir imagen proveniente de Drive</p></div></div>
+        </button>
+        <button class="card visible" style="min-width:260px;cursor:pointer" data-image="https://drive.google.com/uc?export=view&id=1hbnC6Waz5MnXrzdQIppWfcA2_Pde_ms9" data-type="image">
+          <div style="display:flex;gap:12px;align-items:center"><div class="icon"><i class="fa-solid fa-photo-film"></i></div><div><h3 style="margin:0">Foto 2</h3><p style="margin:6px 0 0;color:#dff7fb;font-size:0.92rem">Abrir imagen proveniente de Drive</p></div></div>
+        </button>
+      </div>
+    </div>
+
+    <aside class="refs" aria-label="Referencias recomendadas">
+      <strong>Sugerencias y referencias útiles</strong>
+      <ul style="margin:12px 0 0 18px; color:var(--muted)">
+        <li><a href="https://www.ibm.com/es-es/topics/cybersecurity" target="_blank" rel="noopener">IBM — Qué es la ciberseguridad</a>.</li>
+        <li><a href="https://www.incibe.es/" target="_blank" rel="noopener">INCIBE — Instituto Nacional de Ciberseguridad (España)</a>.</li>
+        <li><a href="https://www.pantallasamigas.net/" target="_blank" rel="noopener">PantallasAmigas — recursos para menores y familias</a>.</li>
+      </ul>
+    </aside>
+
+    <footer style="text-align:center; margin-top:42px; color:var(--muted);">Hecho para clase</footer>
+  </div>
+
+  <!-- SCRIPT 100% SEGURO - ENCAPSULADO EN IIFE -->
+  <script>
+    // IIFE - NO CONTAMINA EL ÁMBITO GLOBAL
+    (function() {
+      'use strict';
+      
+      // ======= CONFIGURACIÓN DE CONTENIDO PERMITIDO =======
+      const ALLOWED_CONTENT = {
+        images: [
+          'https://drive.google.com/uc?export=view&id=1xPaqrSBADHyoigmlWjfOzqelXhZjTzgF',
+          'https://drive.google.com/uc?export=view&id=1hbnC6Waz5MnXrzdQIppWfcA2_Pde_ms9'
+        ],
+        threats: ['phishing','malware','ransomware','ddos','bruteforce','social','supply','cloud','iot','leak']
+      };
+
+      // ======= ELEMENTOS DOM (SINGLETON) =======
+      const DOM = {
+        modal: document.getElementById('lightbox-modal'),
+        modalTitle: document.getElementById('modal-title'),
+        modalContent: document.getElementById('modal-content'),
+        modalClose: document.getElementById('modal-close'),
+        allCards: document.querySelectorAll('.card'),
+        gridCards: document.querySelectorAll('.grid .card')
+      };
+
+      // ======= FUNCIONES MODAL (SIN CONFLICTOS) =======
+      function openModal(type, identifier) {
+        // RESET PREVIO
+        DOM.modal.classList.remove('active');
+        DOM.modalContent.innerHTML = '';
+        
+        if(type === 'threat') {
+          if(!ALLOWED_CONTENT.threats.includes(identifier)) {
+            console.warn('Amenaza no permitida:', identifier);
+            return;
+          }
+          
+          const scenario = document.getElementById(`scenario-${identifier}`);
+          if(!scenario) {
+            console.error('Escenario no encontrado:', identifier);
+            return;
+          }
+          
+          // CLONAR CONTENIDO SEGURO
+          const clone = scenario.cloneNode(true);
+          clone.style.display = 'flex';
+          DOM.modalContent.appendChild(clone);
+          DOM.modalTitle.textContent = `🔍 Ejemplo: ${identifier.toUpperCase()}`;
+          
+        } else if(type === 'image') {
+          if(!ALLOWED_CONTENT.images.includes(identifier)) {
+            alert('Imagen no permitida');
+            return;
+          }
+          
+          const iframe = document.createElement('iframe');
+          iframe.src = identifier;
+          iframe.style.cssText = 'width:100%;height:100%;border:0;background:#000';
+          iframe.allow = 'accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture';
+          DOM.modalContent.appendChild(iframe);
+          DOM.modalTitle.textContent = '🖼️ Visor de Imagen';
+        }
+        
+        // MOSTRAR CON GARANTÍA
+        DOM.modal.classList.add('active');
+        DOM.modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+        DOM.modalClose.focus();
       }
-    });
-  });
 
-  document.getElementById('viewReport').addEventListener('click', ()=> {
-    alert('Informe demo: 3 archivos analizados, 1 detectado como malicioso. Recomendación: no ejecutar .exe desde remitentes desconocidos y mantener antivirus actualizado.');
-  });
-}
+      function closeModal() {
+        DOM.modal.classList.remove('active');
+        DOM.modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+        setTimeout(() => {
+          DOM.modalContent.innerHTML = '';
+          DOM.modalTitle.textContent = '';
+        }, 300);
+      }
 
-/* =========================
-   RANSOMWARE - HTML + logic
-   ========================= */
-function ransomwareHTML(){
-  return `
-    <div class="demo-title"><i class="fa-solid fa-lock"></i> RANSOMWARE — Simulación</div>
-    <div class="demo-desc">Simula cifrado de archivos (solo en la interfaz). Al cifrar verás cómo cambian los nombres y aparece una nota de rescate. Incluye botón de "Restaurar desde backup" para la demo.</div>
+      // ======= EVENT LISTENERS (SIN REPETICIÓN) =======
+      DOM.modalClose.addEventListener('click', closeModal);
+      
+      document.addEventListener('keydown', (e) => {
+        if(e.key === 'Escape' && DOM.modal.classList.contains('active')) {
+          e.preventDefault();
+          closeModal();
+        }
+      });
+      
+      DOM.modal.addEventListener('click', (e) => {
+        if(e.target === DOM.modal) closeModal();
+      });
 
-    <div class="file-list" id="ransom-files" aria-live="polite">
-      <div class="file-item"><div style="width:36px;height:36;border-radius:8px;background:#10212a;display:grid;place-items:center"><i class="fa-solid fa-photo-film"></i></div><div style="flex:1"><strong>fotos_vacaciones.jpg</strong><div class="muted">3.2 MB</div></div><div><span class="badge">OK</span></div></div>
-      <div class="file-item"><div style="width:36px;height:36;border-radius:8px;background:#10212a;display:grid;place-items:center"><i class="fa-solid fa-file-lines"></i></div><div style="flex:1"><strong>proyecto_final.docx</strong><div class="muted">1.1 MB</div></div><div><span class="badge">OK</span></div></div>
-      <div class="file-item"><div style="width:36px;height:36;border-radius:8px;background:#10212a;display:grid;place-items:center"><i class="fa-solid fa-database"></i></div><div style="flex:1"><strong>backup-config.tar</strong><div class="muted">12 MB</div></div><div><span class="badge">OK</span></div></div>
-    </div>
-
-    <div style="margin-top:12px" class="row">
-      <button id="ransom-start" class="btn warn"><i class="fa-solid fa-bolt"></i> Iniciar cifrado (demo)</button>
-      <button id="ransom-restore" class="btn ghost" disabled><i class="fa-solid fa-database"></i> Restaurar desde backup</button>
-      <div style="margin-left:auto" class="muted">Nota: restauración solo reproduce los nombres originales (demo).</div>
-    </div>
-
-    <div id="ransom-note" style="margin-top:12px;display:none;padding:12px;border-radius:8px;background:#2a0c12;border:1px solid rgba(255,255,255,0.02)">
-      <strong style="color:var(--danger)">ARCHIVOS CIFRADOS</strong>
-      <p class="muted" style="margin:6px 0 0">Sus archivos han sido cifrados. Para recuperar los datos, siga las instrucciones (demo). <em>Esta es una nota de rescate simulada</em>.</p>
-    </div>
-  `;
-}
-
-function attachRansomLogic(){
-  const start = document.getElementById('ransom-start');
-  const restore = document.getElementById('ransom-restore');
-  const list = document.getElementById('ransom-files');
-  const note = document.getElementById('ransom-note');
-  const originalNames = [];
-
-  // store original names
-  list.querySelectorAll('.file-item strong').forEach(s=> originalNames.push(s.textContent));
-
-  start.addEventListener('click', ()=>{
-    start.disabled = true; start.textContent = 'Cifrando...';
-    note.style.display = 'block';
-    // animate: replace each name with "ENCRYPTED_XXXX"
-    const items = Array.from(list.querySelectorAll('.file-item strong'));
-    let i = 0;
-    const iv = setInterval(()=>{
-      if(i >= items.length){ clearInterval(iv); start.textContent='Cifrado (demo)'; restore.disabled = false; toast('Archivos cifrados (demo) — recuerda backups'); return; }
-      const el = items[i];
-      el.dataset.orig = el.textContent;
-      const rnd = Math.random().toString(36).slice(2,8).toUpperCase();
-      el.textContent = `ENCRYPTED_${rnd}.locked`;
-      el.parentElement.nextElementSibling.querySelector('.badge').textContent = 'CIFRADO';
-      el.parentElement.nextElementSibling.querySelector('.badge').style.background='linear-gradient(90deg,#ff6a88,#ffb57a)';
-      i++;
-    }, 700);
-  });
-
-  restore.addEventListener('click', ()=>{
-    const items = Array.from(list.querySelectorAll('.file-item strong'));
-    items.forEach((el, idx)=>{ el.textContent = originalNames[idx]; el.parentElement.nextElementSibling.querySelector('.badge').textContent='OK'; el.parentElement.nextElementSibling.querySelector('.badge').style.background='rgba(255,255,255,0.03)'; });
-    note.style.display='none';
-    restore.disabled = true;
-    start.disabled = false; start.textContent = 'Iniciar cifrado (demo)';
-    toast('Restauración desde backup simulada (demo). Recuerda tener backups offline y versionados en la realidad.');
-  });
-}
-
-/* =========================
-   DDOS - HTML + logic (canvas)
-   ========================= */
-function ddosHTML(){
-  return `
-    <div class="demo-title"><i class="fa-solid fa-server"></i> DDoS — Tráfico simulado</div>
-    <div class="demo-desc">Observa un gráfico de requests/segundo y activa un "ataque" demo. Muestra cómo la capacidad puede saturarse.</div>
-
-    <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
-      <div style="flex:1">
-        <div id="ddos-chart"></div>
-      </div>
-      <div style="width:220px">
-        <div class="muted">Requests / s</div>
-        <div class="counter" id="ddos-counter">0</div>
-        <div style="margin-top:12px" class="row">
-          <button id="ddos-start" class="btn warn"><i class="fa-solid fa-play"></i> Iniciar</button>
-          <button id="ddos-stop" class="btn ghost"><i class="fa-solid fa-stop"></i> Parar</button>
-        </div>
-        <div class="note">Mitigación demo: activar WAF y rate-limit reduce picos (simulado).</div>
-      </div>
-    </div>
-  `;
-}
-
-function attachDdosLogic(){
-  // simple canvas chart drawing
-  const chart = document.getElementById('ddos-chart');
-  chart.innerHTML = '<canvas id="ddosCanvas" width="800" height="120" style="width:100%;height:120px"></canvas>';
-  const canvas = document.getElementById('ddosCanvas');
-  const ctx = canvas.getContext('2d');
-  function resize(){ canvas.width = canvas.clientWidth*devicePixelRatio; canvas.height = 120*devicePixelRatio; ctx.scale(devicePixelRatio, devicePixelRatio); }
-  resize(); window.addEventListener('resize', ()=>{ resize(); draw(data); });
-  const data = Array(40).fill(10);
-  function draw(arr){
-    // clear
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    // background
-    ctx.fillStyle = 'rgba(255,255,255,0.02)'; ctx.fillRect(0,0,canvas.clientWidth,120);
-    // path
-    const w = canvas.clientWidth; const h = 120;
-    ctx.beginPath(); ctx.moveTo(0, h - (arr[0]/120)*h);
-    for(let i=1;i<arr.length;i++){
-      const x = (i/(arr.length-1))*w; const y = h - (arr[i]/120)*h; ctx.lineTo(x,y);
-    }
-    ctx.strokeStyle = 'rgba(0,240,255,0.9)'; ctx.lineWidth=2; ctx.stroke();
-    // area
-    ctx.lineTo(w,h); ctx.lineTo(0,h); ctx.closePath();
-    const g = ctx.createLinearGradient(0,0,0,h); g.addColorStop(0,'rgba(0,240,255,0.12)'); g.addColorStop(1,'rgba(0,240,255,0.01)');
-    ctx.fillStyle = g; ctx.fill();
-  }
-  draw(data);
-
-  const counter = document.getElementById('ddos-counter');
-  let interval=null;
-  document.getElementById('ddos-start').addEventListener('click', ()=>{
-    if(interval) return;
-    interval = setInterval(()=>{
-      // push new value with randomness (simulate attack increase)
-      const last = data[data.length-1];
-      let next = last + Math.floor(Math.random()*180 + 20);
-      if(next > 1800) next = 1800; // cap demo
-      data.push(next); data.shift();
-      draw(data); counter.textContent = next.toLocaleString();
-    }, 300);
-    toast('Ataque simulado iniciado (demo)');
-  });
-  document.getElementById('ddos-stop').addEventListener('click', ()=>{
-    clearInterval(interval); interval=null;
-    // decay
-    const decay = setInterval(()=>{
-      const last = data[data.length-1];
-      const next = Math.max(8, Math.floor(last * 0.75));
-      data.push(next); data.shift(); draw(data); counter.textContent = next.toLocaleString();
-      if(next <= 10){ clearInterval(decay); counter.textContent='0'; toast('Tráfico normalizado (demo)'); }
-    }, 300);
-  });
-}
-
-/* =========================
-   BRUTE FORCE - HTML + logic
-   ========================= */
-function bruteforceHTML(){
-  return `
-    <div class="demo-title"><i class="fa-solid fa-key"></i> FUERZA BRUTA — Intentos</div>
-    <div class="demo-desc">Prueba login con múltiples intentos. Si hay X fallos seguidos la cuenta se bloquea temporalmente. Se muestran recomendaciones (2FA, bloqueo por IP).</div>
-
-    <div style="display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap">
-      <div style="width:320px">
-        <div style="padding:12px;border-radius:10px;background:rgba(255,255,255,0.01);border:1px solid rgba(255,255,255,0.02)">
-          <label class="muted">Usuario</label>
-          <input id="bf-user" value="admin" style="width:100%;padding:8px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.03);color:#eafcff" />
-          <label class="muted" style="margin-top:8px;display:block">Contraseña</label>
-          <input id="bf-pass" type="password" style="width:100%;padding:8px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.03);color:#eafcff" />
-          <div style="margin-top:10px" class="row">
-            <button id="bf-try" class="btn primary"><i class="fa-solid fa-right-to-bracket"></i> Intentar login</button>
-            <button id="bf-auto" class="btn ghost"><i class="fa-solid fa-gear"></i> Simular fuerza bruta</button>
-          </div>
-          <div id="bf-info" style="margin-top:8px" class="muted">Intentos: 0 · Estado: OK</div>
-        </div>
-      </div>
-
-      <div style="flex:1">
-        <div class="muted">Registro de intentos (demo)</div>
-        <div id="bf-log" style="margin-top:8px;padding:8px;border-radius:8px;background:rgba(255,255,255,0.01);height:150px;overflow:auto"></div>
-        <div class="note" style="margin-top:8px">Consejo: activa 2FA y bloquea IP tras varios intentos. Implementa rate limiting.</div>
-      </div>
-    </div>
-  `;
-}
-
-function attachBruteforceLogic(){
-  const tryBtn = document.getElementById('bf-try');
-  const autoBtn = document.getElementById('bf-auto');
-  const log = document.getElementById('bf-log');
-  const info = document.getElementById('bf-info');
-  const userInput = document.getElementById('bf-user');
-  const passInput = document.getElementById('bf-pass');
-  let attempts = 0;
-  const MAX = 6;
-  let lockedUntil = null;
-  function updateInfo(){ info.textContent = `Intentos: ${attempts} · Estado: ${lockedUntil && Date.now() < lockedUntil ? 'BLOQUEADA' : 'OK'}`; }
-
-  tryBtn.addEventListener('click', ()=>{
-    if(lockedUntil && Date.now() < lockedUntil){ toast('Cuenta bloqueada temporalmente (demo)'); updateInfo(); return; }
-    attempts++;
-    const pass = passInput.value || '';
-    // demo: password 's3cret!' is correct
-    const success = pass === 's3cret!';
-    const row = document.createElement('div'); row.style.padding='6px 0'; row.innerHTML = `<strong>${new Date().toLocaleTimeString()}</strong> — user: ${userInput.value} — pass: ${pass} — ${success ? '<span style="color:#6ee7b7">Éxito</span>' : '<span style="color:#ff9fb3">Fallido</span>'}`;
-    log.prepend(row);
-    if(success){ toast('Acceso concedido (demo)'); attempts = 0; }
-    if(!success && attempts >= MAX){
-      lockedUntil = Date.now() + 30*1000; // bloquea 30s en demo
-      toast('Cuenta bloqueada por varios intentos (demo)');
-    }
-    updateInfo();
-  });
-
-  let autoInterval = null;
-  autoBtn.addEventListener('click', ()=>{
-    if(autoInterval){ clearInterval(autoInterval); autoInterval = null; autoBtn.textContent='Simular fuerza bruta'; return; }
-    autoBtn.textContent='Parar simulación';
-    autoInterval = setInterval(()=>{
-      const fakePass = samplePasswords[Math.floor(Math.random()*samplePasswords.length)] + Math.floor(Math.random()*999);
-      passInput.value = fakePass;
-      tryBtn.click();
-      if(lockedUntil && Date.now() < lockedUntil){ clearInterval(autoInterval); autoInterval=null; autoBtn.textContent='Simular fuerza bruta'; }
-    }, 600);
-  });
-
-  updateInfo();
-}
-
-/* =========================
-   SOCIAL ENGINEERING
-   ========================= */
-function socialHTML(){
-  return `
-    <div class="demo-title"><i class="fa-solid fa-user-secret"></i> INGENIERÍA SOCIAL — Chat & Llamada</div>
-    <div class="demo-desc">Ejemplo de mensaje/llamada fraudulenta. Usa el botón "Ver señales" para listar banderas rojas típicas.</div>
-
-    <div style="display:flex;gap:12px;flex-wrap:wrap">
-      <div style="flex:1">
-        <div style="padding:12px;border-radius:10px;background:#021426;border:1px solid rgba(255,255,255,0.02);">
-          <div style="font-weight:700">Soporte Técnico</div>
-          <div class="muted">Hola, soy Ana del soporte. Hemos detectado acceso sospechoso. Necesitamos su PIN para verificar inmediatamente.</div>
-        </div>
-      </div>
-
-      <div style="width:260px">
-        <button id="social-check" class="btn primary"><i class="fa-solid fa-eye"></i> Ver señales sospechosas</button>
-        <button id="social-report" class="btn ghost" style="margin-left:8px"><i class="fa-solid fa-flag"></i> Reportar</button>
-      </div>
-    </div>
-
-    <div id="social-result" style="margin-top:12px"></div>
-  `;
-}
-
-function attachSocialLogic(){
-  document.getElementById('social-check').addEventListener('click', ()=>{
-    const issues = [
-      'Urgencia no justificada: presión para actuar ahora.',
-      'Petición de datos sensibles (PIN, contraseñas).',
-      'Falta de verificación: no hay caller ID ni referencia interna.',
-      'Saludo genérico y falta de contexto técnico.',
-    ];
-    document.getElementById('social-result').innerHTML = `<div style="padding:10px;border-radius:8px;background:rgba(255,255,255,0.01)"><strong>Señales detectadas (demo):</strong><ul style="margin:8px 0 0 18px">${issues.map(i=>`<li>${i}</li>`).join('')}</ul></div>`;
-    toast('Señales mostradas (demo)');
-  });
-  document.getElementById('social-report').addEventListener('click', ()=>{ toast('Reportado a equipo interno (demo)'); });
-}
-
-/* =========================
-   SUPPLY CHAIN - graph + logic
-   ========================= */
-function supplyHTML(){
-  return `
-    <div class="demo-title"><i class="fa-solid fa-sitemap"></i> SUPPLY-CHAIN — Dependencias</div>
-    <div class="demo-desc">Haz clic en un nodo para marcarlo como comprometido y observa la propagación visual a dependientes.</div>
-    <svg id="supply-svg" viewBox="0 0 800 280" preserveAspectRatio="xMidYMid meet"></svg>
-    <div class="note">En la realidad: controla la integridad de dependencias, firma de paquetes y revisiones de proveedores.</div>
-  `;
-}
-
-function attachSupplyLogic(){
-  const svg = document.getElementById('supply-svg');
-  // nodes with dependencies (simple)
-  const nodes = [
-    {id:'N1', x:120, y:60, label:'Proveedor A', deps:['N3']},
-    {id:'N2', x:320, y:60, label:'Librería B', deps:['N3']},
-    {id:'N3', x:520, y:60, label:'SDK común', deps:['N4']},
-    {id:'N4', x:360, y:180, label:'TuApp', deps:[]},
-  ];
-  // draw edges first
-  svg.innerHTML = '';
-  const ns = 'http://www.w3.org/2000/svg';
-  nodes.forEach(n=>{
-    n.deps.forEach(d=>{
-      const target = nodes.find(x=>x.id===d);
-      const line = document.createElementNS(ns,'line');
-      line.setAttribute('x1', n.x); line.setAttribute('y1', n.y+8); line.setAttribute('x2', target.x); line.setAttribute('y2', target.y-8);
-      line.setAttribute('stroke','rgba(255,255,255,0.06)'); line.setAttribute('stroke-width','2'); svg.appendChild(line);
-    });
-  });
-  // draw nodes
-  nodes.forEach(n=>{
-    const g = document.createElementNS(ns,'g'); g.setAttribute('transform',`translate(${n.x},${n.y})`); g.style.cursor='pointer';
-    const circ = document.createElementNS(ns,'circle'); circ.setAttribute('r','30'); circ.setAttribute('fill','#071827'); circ.setAttribute('stroke','rgba(255,255,255,0.04)');
-    const txt = document.createElementNS(ns,'text'); txt.setAttribute('y','6'); txt.setAttribute('x','0'); txt.setAttribute('text-anchor','middle'); txt.setAttribute('fill','#dff7fb'); txt.setAttribute('font-size','12'); txt.textContent = n.id;
-    const label = document.createElementNS(ns,'text'); label.setAttribute('y','50'); label.setAttribute('x','0'); label.setAttribute('text-anchor','middle'); label.setAttribute('fill','#9fdcff'); label.setAttribute('font-size','11'); label.textContent = n.label;
-    g.appendChild(circ); g.appendChild(txt); g.appendChild(label);
-    g.addEventListener('click', ()=>{
-      // mark compromised and animate propagation
-      circ.setAttribute('fill','#ff6a88');
-      toast(`${n.label} comprometido (demo)`);
-      // ripple to dependents: simple timeout
-      setTimeout(()=> {
-        nodes.filter(x=>x.deps.includes(n.id)).forEach(dep=>{
-          // find the svg circle of dep
-          const el = Array.from(svg.querySelectorAll('g')).find(g2=> g2.querySelector('text').textContent === dep.id);
-          if(el){ el.querySelector('circle').setAttribute('fill','#ffb57a'); }
+      // CARDS DE AMENAZA
+      document.querySelectorAll('[data-type="threat"]').forEach(card => {
+        card.addEventListener('click', () => openModal('threat', card.dataset.scenario));
+        card.addEventListener('keydown', (e) => {
+          if(e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            card.click();
+          }
         });
-      }, 600);
-    });
-    svg.appendChild(g);
-  });
-}
+      });
 
-/* =========================
-   CLOUD - bucket public/private
-   ========================= */
-function cloudHTML(){
-  return `
-    <div class="demo-title"><i class="fa-solid fa-cloud"></i> NUBE — Bucket público/privado</div>
-    <div class="demo-desc">Simula permisos de un bucket. Marca público y pulsa "Escanear" para ver archivos expuestos.</div>
+      // CARDS DE IMAGEN
+      document.querySelectorAll('[data-type="image"]').forEach(btn => {
+        btn.addEventListener('click', () => openModal('image', btn.dataset.image));
+        btn.addEventListener('keydown', (e) => {
+          if(e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            btn.click();
+          }
+        });
+      });
 
-    <div style="display:flex;gap:12px;align-items:center">
-      <div style="flex:1">
-        <div style="padding:12px;border-radius:10px;background:rgba(255,255,255,0.01);border:1px solid rgba(255,255,255,0.02)">
-          <div style="display:flex;align-items:center;gap:8px">
-            <strong>mi-backup-2025</strong>
-            <div class="muted">· Contenido: configs, backups, fotos</div>
-          </div>
-          <div style="margin-top:10px" class="row">
-            <label class="muted">Público <input type="checkbox" id="bucketPublic" checked style="margin-left:8px"></label>
-            <button id="bucketScan" class="btn primary">Escanear</button>
-          </div>
-          <div id="bucketResult" style="margin-top:10px"></div>
-        </div>
-      </div>
+      // ======= ANIMACIÓN DE REVEAL =======
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+          if(entry.isIntersecting){
+            const card = entry.target;
+            const idx = Array.from(DOM.gridCards).indexOf(card);
+            card.style.setProperty('--i', idx);
+            card.style.setProperty('--dance-range', `${8 + (idx % 3) * 4 + Math.round(Math.random()*6)}px`);
+            card.style.setProperty('--dance-dur', `${(3.6 + Math.random()*2.2).toFixed(2)}s`);
+            card.style.animationDelay = `${Math.random()*500}ms`;
+            card.classList.add('visible', 'dance');
+            observer.unobserve(card);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '50px' });
+      
+      DOM.gridCards.forEach(card => observer.observe(card));
 
-      <div style="width:300px">
-        <div style="padding:12px;border-radius:10px;background:rgba(255,255,255,0.01);border:1px solid rgba(255,255,255,0.02)">
-          <div class="muted">URL de ejemplo</div>
-          <div style="margin-top:8px"><code id="bucketUrl">https://storage.example.com/mi-backup-2025/</code></div>
-          <div class="note" style="margin-top:8px">Nota: Cerrar acceso público o usar políticas de IAM restrictivas.</div>
-        </div>
-      </div>
-    </div>
-  `;
-}
+      // ======= EFECTOS HOVER =======
+      DOM.allCards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          const cx = rect.width / 2;
+          const cy = rect.height / 2;
+          const rx = ((y - cy) / cy * 6).toFixed(2);
+          const ry = (-(x - cx) / cx * 8).toFixed(2);
+          card.style.transform = `translateY(-18px) scale(1.06) rotateX(${rx}deg) rotateY(${ry}deg) rotateZ(-0.6deg)`;
+        });
 
-function attachCloudLogic(){
-  document.getElementById('bucketScan').addEventListener('click', ()=>{
-    const pub = document.getElementById('bucketPublic').checked;
-    const out = document.getElementById('bucketResult');
-    if(pub){
-      out.innerHTML = `<div style="padding:10px;border-radius:8px;background:rgba(255,120,120,0.04)"><strong style="color:var(--danger)">Riesgo:</strong> bucket público. Archivos expuestos:</div>
-        <ul style="margin-top:8px">
-          <li>config/db_credentials.yml</li>
-          <li>backups/database-2025-07.sql</li>
-          <li>photos/private/CEO.jpg</li>
-        </ul>`;
-      toast('Bucket público detectado (demo)');
-    } else {
-      out.innerHTML = `<div style="padding:10px;border-radius:8px;background:rgba(110,231,183,0.04)"><strong style="color:var(--success)">OK</strong> — bucket privado.</div>`;
-      toast('Bucket restringido (demo)');
-    }
-  });
-}
+        card.addEventListener('mouseenter', () => {
+          card.style.transition = 'transform .12s cubic-bezier(.2,.9,.2,1), box-shadow .22s';
+          for(let i = 0; i < 3; i++) createSpark(card, 4 + Math.random() * 6);
+        });
 
-/* =========================
-   IOT - inventory + patch
-   ========================= */
-function iotHTML(){
-  return `
-    <div class="demo-title"><i class="fa-solid fa-wifi"></i> IØT — Dispositivos</div>
-    <div class="demo-desc">Inventario con nivel de riesgo y botones para parcheo (demo).</div>
+        card.addEventListener('mouseleave', () => {
+          card.style.transition = 'transform .45s cubic-bezier(.2,.9,.2,1), box-shadow .35s';
+          card.style.transform = '';
+        });
 
-    <div class="file-list">
-      <div class="file-item"><div style="width:36px;height:36;border-radius:8px;display:grid;place-items:center">📷</div><div style="flex:1"><strong>Camara-entrada</strong><div class="muted">Firmware v1.0 — Exposición: ALTA</div></div><div><button class="btn warn patch" data-device="Camara-entrada">Parchear</button></div></div>
-      <div class="file-item"><div style="width:36px;height:36;border-radius:8px;display:grid;place-items:center">🌡️</div><div style="flex:1"><strong>Termostato</strong><div class="muted">Firmware v2.3 — Exposición: BAJA</div></div><div><button class="btn ghost patch" data-device="Termostato">Parchear</button></div></div>
-      <div style="margin-top:8px"><button id="patchAll" class="btn primary"><i class="fa-solid fa-wrench"></i> Parchear todo</button></div>
-    </div>
-  `;
-}
+        // Idle micro-animation
+        const idleShake = () => {
+          if(!card.matches(':hover')){
+            const tx = (Math.random() * 6 - 3).toFixed(2);
+            const ty = (Math.random() * 4 - 2).toFixed(2);
+            const rot = (Math.random() * 1 - 0.5).toFixed(2);
+            card.animate([{transform:`translate(${tx}px,${ty}px) rotate(${rot}deg)`},{transform:'translate(0px,0px) rotate(0deg)'}], {duration:420 + Math.random()*600,easing:'ease-in-out'});
+          }
+          setTimeout(idleShake, 1500 + Math.random()*2600);
+        };
+        setTimeout(idleShake, 400 + Math.random()*900);
+      });
 
-function attachIotLogic(){
-  document.querySelectorAll('.patch').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      btn.disabled = true; btn.textContent = 'Parcheando...';
-      setTimeout(()=>{ btn.textContent = 'Parcheado'; btn.classList.remove('warn'); btn.classList.add('ghost'); toast(`${btn.dataset.device} actualizado (demo)`); }, 900 + Math.random()*800);
-    });
-  });
-  document.getElementById('patchAll').addEventListener('click', ()=>{
-    document.querySelectorAll('.patch').forEach(b=> b.click());
-  });
-}
+      function createSpark(card, size){
+        const s = document.createElement('span');
+        s.className = 'spark';
+        const colors = ['#fff8c6','#ffd5e8','#bff8ff','#ffd27a'];
+        s.style.background = colors[Math.floor(Math.random()*colors.length)];
+        const rect = card.getBoundingClientRect();
+        s.style.left = Math.random() * (rect.width - 20) + 'px';
+        s.style.top = Math.random() * (rect.height - 20) + 'px';
+        s.style.width = s.style.height = (size || 6) + 'px';
+        s.style.opacity = '0';
+        card.appendChild(s);
+        const anim = s.animate([
+          {opacity:0,transform:'scale(0.4) translateY(6px) rotate(0deg)'},
+          {opacity:1,transform:'scale(1.1) translateY(-6px) rotate(30deg)'},
+          {opacity:0,transform:'scale(0.6) translateY(-14px) rotate(60deg)'}
+        ], {duration:380 + Math.random()*520, easing:'cubic-bezier(.2,.9,.2,1)'});
+        anim.onfinish = () => s.remove();
+      }
 
-/* =========================
-   DATA LEAK - table + logic
-   ========================= */
-function dataleakHTML(){
-  return `
-    <div class="demo-title"><i class="fa-solid fa-database"></i> DATA LEAK — Datos expuestos</div>
-    <div class="demo-desc">Tabla con PII enmascarada. Puedes mostrar (demo) o redactar, y generar una plantilla de notificación.</div>
+      // ======= REDUCED MOTION =======
+      const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+      if(motionQuery.matches){
+        document.querySelectorAll('.card, .float-shape').forEach(el => {
+          el.style.animation = 'none !important';
+          el.style.transition = 'none !important';
+        });
+      }
 
-    <table>
-      <thead><tr><th>Nombre</th><th>DNI</th><th>Email</th></tr></thead>
-      <tbody id="leakTable">
-        <tr><td>María Pérez</td><td class="pii masked">123.456.78A</td><td class="pii masked">maria.perez@example.com</td></tr>
-        <tr><td>Carlos Ruiz</td><td class="pii masked">987.654.32B</td><td class="pii masked">carlos.ruiz@example.com</td></tr>
-        <tr><td>Ana López</td><td class="pii masked">456.789.01C</td><td class="pii masked">ana.lopez@example.com</td></tr>
-      </tbody>
-    </table>
+      // ======= GARANTÍA: Si el script falla, mostrar error =======
+      window.addEventListener('error', (e) => {
+        console.error('ERROR CRÍTICO:', e.error);
+        // Solo mostrar error si estamos en desarrollo (GitHub Pages no es desarrollo)
+        if(window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'){
+          const errorDiv = document.createElement('div');
+          errorDiv.style.cssText = 'position:fixed;bottom:0;left:0;right:0;background:#ff004d;color:#fff;padding:10px;z-index:99999;font-family:monospace;font-size:12px;';
+          errorDiv.textContent = `ERROR: ${e.message}. Revise la consola (F12)`;
+          document.body.appendChild(errorDiv);
+          setTimeout(() => errorDiv.remove(), 5000);
+        }
+      });
 
-    <div style="margin-top:10px" class="row">
-      <button id="unmask" class="btn primary">Mostrar datos (demo)</button>
-      <button id="redact" class="btn ghost">Redactar PII</button>
-      <button id="genMail" class="btn warn">Generar e-mail de notificación</button>
-    </div>
-
-    <div id="mailArea" style="margin-top:12px"></div>
-  `;
-}
-
-function attachDataLeakLogic(){
-  const unmask = document.getElementById('unmask');
-  const redact = document.getElementById('redact');
-  const genMail = document.getElementById('genMail');
-  const table = document.getElementById('leakTable');
-  const mailArea = document.getElementById('mailArea');
-
-  unmask.addEventListener('click', ()=>{
-    table.querySelectorAll('.masked').forEach(td=> td.classList.remove('masked'));
-    toast('Datos mostrados (demo) — en producción redacta o elimina PII antes de publicar.');
-  });
-
-  redact.addEventListener('click', ()=>{
-    table.querySelectorAll('.pii').forEach(td=>{
-      td.textContent = td.textContent.replace(/(.{2}).+(.{2})/,'$1***$2');
-      td.classList.add('masked');
-    });
-    toast('PII redactada (demo).');
-  });
-
-  genMail.addEventListener('click', ()=>{
-    const subject = 'Notificación de fuga de datos — Acciones requeridas';
-    const body = `Estimado/a,\n\nLe informamos que hemos detectado una exposición de datos personales el ${new Date().toLocaleDateString()}. Los datos potencialmente afectados incluyen nombres y correos electrónicos. Hemos tomado medidas inmediatas para contener el incidente y recomendamos:\n\n- Cambiar contraseñas asociadas.\n- Activar 2FA.\n- Revisar actividad inusual.\n\nAtentamente,\nEquipo de Seguridad (demo)`;
-    mailArea.innerHTML = `<div style="padding:10px;border-radius:8px;background:rgba(255,255,255,0.01)"><strong>Asunto:</strong> ${subject}<pre style="margin-top:8px;background:transparent;border-left:3px solid rgba(255,255,255,0.02);padding-left:8px">${body}</pre></div>`;
-    toast('Plantilla de notificación generada (demo)');
-  });
-}
-
-/* END of demos */
-</script>
+    })(); // FIN IIFE
+  </script>
+</body>
+</html>
 
 </body>
 </html>
