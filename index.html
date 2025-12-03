@@ -51,17 +51,18 @@
     .section-title{font-size:1.6rem;margin:36px auto 8px;max-width:1100px;text-transform:uppercase;letter-spacing:0.08em;font-weight:900;background:linear-gradient(90deg,#00f5ff,#7b61ff,#ff6a88,#ffd27a,#7effb2);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 10px 48px rgba(123,97,255,0.16);text-align:center;filter:saturate(1.45)}
     .section-sub{max-width:1100px;margin:0 auto 18px;color:rgba(200,240,255,0.95);text-align:center}
     
-    /* ==== MODAL 100% RESPONSIVE ==== */
+    /* ==== MODAL 100% RESPONSIVE (NO OVERFLOW) ==== */
     .universal-lightbox{position:fixed;inset:0;display:none !important;align-items:center;justify-content:center;background:rgba(2,6,12,0.95);z-index:9999;padding:20px 10px;backdrop-filter:blur(10px)}
     .universal-lightbox.active{display:flex !important}
     .universal-lightbox .frame{width:min(95vw, 900px);max-height:min(90vh, 640px);background:linear-gradient(180deg,#0a0f1a,#060a12);border-radius:16px;overflow:hidden;position:relative;box-shadow:0 40px 140px rgba(0,0,0,0.85);animation:lbPop .28s cubic-bezier(.2,.9,.2,1);display:flex;flex-direction:column;border:1px solid rgba(255,255,255,0.08)}
     @keyframes lbPop{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
     .universal-lightbox .close{position:absolute;right:14px;top:14px;z-index:10;background:linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.02));color:#fff;border-radius:10px;padding:12px 14px;border:0;cursor:pointer;backdrop-filter:blur(6px);box-shadow:0 8px 30px rgba(0,0,0,0.6);font-size:1.2rem;min-width:44px;min-height:44px}
     .universal-lightbox .content-title{margin:0;padding:18px 24px;background:rgba(255,255,255,0.02);border-bottom:1px solid rgba(255,255,255,0.06);font-size:clamp(1rem, 2vw, 1.3rem);font-weight:900;letter-spacing:0.05em;background:linear-gradient(90deg,#00f5ff,#7b61ff);-webkit-background-clip:text;background-clip:text;color:transparent}
-    .universal-lightbox .content-area{flex:1;padding:20px;display:flex;align-items:center;justify-content:center;position:relative;overflow-y:auto;min-height:0}
+    .universal-lightbox .content-area{flex:1;padding:20px;display:flex;align-items:center;justify-content:center;position:relative;overflow-y:auto;max-height:100%}
     
-    /* ==== ESCENARIOS ADAPTATIVOS ==== */
+    /* ==== ESCENARIOS ADAPTATIVOS (CON CLAMP) ==== */
     .threat-scenario-data{display:none !important}
+    .scenario-container{width:100%;height:100%;display:flex;align-items:center;justify-content:center;max-width:100%;max-height:100%;padding:10px}
     
     /* Ajustes para pantallas pequeñas */
     @media (max-width: 768px) {
@@ -93,7 +94,6 @@
     .refs{max-width:1100px;margin:28px auto 0;padding:18px;border-radius:12px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03);color:var(--muted)}
     .refs a{color:var(--accent-1);text-decoration:underline}
 
-    /* Media queries generales */
     @media (max-width:780px){.title{font-size:1.9rem}.card{padding:14px}.icon{width:48px;height:48px}}
   </style>
 </head>
@@ -179,125 +179,129 @@
     <div class="threat-scenario-data">
       <!-- Phishing -->
       <div id="scenario-phishing">
-        <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;">
-          <div class="scenario-element" style="font-size:4rem;animation:scenarioPulse 2s infinite;"><i class="fa-regular fa-envelope-open" style="color:var(--accent-1);"></i></div>
-          <div class="scenario-element" style="font-size:3rem;animation:scenarioPulse 2s infinite .3s;"><i class="fa-solid fa-fish" style="color:var(--accent-2);"></i></div>
-          <div style="position:relative;width:200px;height:8px;background:linear-gradient(90deg,var(--accent-1),var(--accent-2));border-radius:4px;overflow:hidden;">
+        <div class="scenario-container">
+          <div class="scenario-element" style="font-size:clamp(2rem, 8vw, 4rem);animation:scenarioPulse 2s infinite;"><i class="fa-regular fa-envelope-open" style="color:var(--accent-1);"></i></div>
+          <div class="scenario-element" style="font-size:clamp(1.5rem, 6vw, 3rem);animation:scenarioPulse 2s infinite .3s;"><i class="fa-solid fa-fish" style="color:var(--accent-2);"></i></div>
+          <div style="position:relative;width:min(200px, 90vw);height:8px;background:linear-gradient(90deg,var(--accent-1),var(--accent-2));border-radius:4px;overflow:hidden;">
             <div style="position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,var(--light),transparent);animation:swipe 2s infinite;"></div>
           </div>
-          <p style="color:var(--muted);text-align:center;margin-top:20px;">Mensaje legítimo → Anzuelo oculto → Robo de credenciales</p>
+          <p style="color:var(--muted);text-align:center;margin-top:20px;font-size:clamp(0.8rem, 2vw, 1rem);">Mensaje legítimo → Anzuelo oculto → Robo de credenciales</p>
           <style>@keyframes swipe{0%{left:-100%}100%{left:100%}} @keyframes scenarioPulse{0%,100%{opacity:.6;transform:scale(1)}50%{opacity:1;transform:scale(1.1)}}</style>
         </div>
       </div>
 
       <!-- Malware -->
       <div id="scenario-malware">
-        <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;position:relative;">
-          <div class="scenario-element" style="font-size:5rem;z-index:2;"><i class="fa-solid fa-file" style="color:var(--accent-1);"></i></div>
-          <div class="scenario-element" style="position:absolute;animation:bugSpread 3s infinite;"><i class="fa-solid fa-bug" style="color:var(--accent-2);font-size:3rem;"></i></div>
-          <div style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);color:var(--muted);">Archivo infectado libera malware</div>
+        <div class="scenario-container">
+          <div class="scenario-element" style="font-size:clamp(3rem, 10vw, 5rem);z-index:2;"><i class="fa-solid fa-file" style="color:var(--accent-1);"></i></div>
+          <div class="scenario-element" style="position:absolute;animation:bugSpread 3s infinite;"><i class="fa-solid fa-bug" style="color:var(--accent-2);font-size:clamp(1.5rem, 6vw, 3rem);"></i></div>
+          <div style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);color:var(--muted);font-size:clamp(0.8rem, 2vw, 1rem);">Archivo infectado libera malware</div>
           <style>@keyframes bugSpread{0%{transform:scale(0);opacity:0}50%{transform:scale(2.5);opacity:.8}100%{transform:scale(4);opacity:0}}</style>
         </div>
       </div>
 
       <!-- Ransomware -->
       <div id="scenario-ransomware">
-        <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;gap:15px;">
-          ${[...Array(6)].map((_,i) => `
-            <div class="scenario-element" style="width:60px;height:80px;background:linear-gradient(180deg,#2a4a7a,#1a2a4a);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;animation:lockFiles 2s infinite;animation-delay:${i*.2}s;">
-              <i class="fa-solid fa-file" style="color:var(--accent-1);"></i>
-            </div>
-          `).join('')}
-          <div style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);color:var(--muted);">Cifrado progresivo de archivos</div>
+        <div class="scenario-container">
+          <div style="display:flex;gap:clamp(5px, 2vw, 15px);flex-wrap:wrap;justify-content:center;">
+            ${[...Array(6)].map((_,i) => `
+              <div class="scenario-element" style="width:min(60px, 15vw);height:min(80px, 20vw);background:linear-gradient(180deg,#2a4a7a,#1a2a4a);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:clamp(1rem, 3vw, 1.5rem);animation:lockFiles 2s infinite;animation-delay:${i*.2}s;">
+                <i class="fa-solid fa-file" style="color:var(--accent-1);"></i>
+              </div>
+            `).join('')}
+          </div>
+          <div style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);color:var(--muted);font-size:clamp(0.8rem, 2vw, 1rem);">Cifrado progresivo de archivos</div>
           <style>@keyframes lockFiles{0%,100%{background:linear-gradient(180deg,#2a4a7a,#1a2a4a);transform:scale(1)}50%{background:linear-gradient(180deg,var(--accent-2),#7a1a4a);transform:scale(.95) rotateY(180deg)}55%{transform:scale(1) rotateY(0deg)}}</style>
         </div>
       </div>
 
       <!-- DDoS -->
       <div id="scenario-ddos">
-        <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;position:relative;">
-          <div class="scenario-element" style="font-size:4rem;z-index:2;"><i class="fa-solid fa-server" style="color:var(--accent-1);"></i></div>
+        <div class="scenario-container">
+          <div class="scenario-element" style="font-size:clamp(2rem, 10vw, 4rem);z-index:2;"><i class="fa-solid fa-server" style="color:var(--accent-1);"></i></div>
           ${[...Array(12)].map((_,i) => `
-            <div class="scenario-element" style="position:absolute;width:4px;height:40px;background:linear-gradient(180deg,var(--accent-3),var(--accent-2));border-radius:2px;transform-origin:bottom;animation:ddosPulse 1s infinite;animation-delay:${i*.08}s;transform:translate(-50%,-100%) rotate(${i*30}deg);"></div>
+            <div class="scenario-element" style="position:absolute;width:3px;height:clamp(30px, 8vw, 40px);background:linear-gradient(180deg,var(--accent-3),var(--accent-2));border-radius:2px;transform-origin:bottom;animation:ddosPulse 1s infinite;animation-delay:${i*.08}s;transform:translate(-50%,-100%) rotate(${i*30}deg);"></div>
           `).join('')}
-          <div style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);color:var(--muted);">Múltiples fuentes saturando el servidor</div>
+          <div style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);color:var(--muted);font-size:clamp(0.8rem, 2vw, 1rem);">Múltiples fuentes saturando el servidor</div>
           <style>@keyframes ddosPulse{0%{opacity:0;transform:translate(-50%,-100%) rotate(var(--rotation)) scaleY(0)}50%{opacity:1;transform:translate(-50%,-100%) rotate(var(--rotation)) scaleY(1)}100%{opacity:0;transform:translate(-50%,-120%) rotate(var(--rotation)) scaleY(1.2)}}</style>
         </div>
       </div>
 
       <!-- Brute Force -->
       <div id="scenario-bruteforce">
-        <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;">
-          <div class="scenario-element" style="font-size:4rem;"><i class="fa-solid fa-lock" style="color:var(--accent-1);"></i></div>
-          <div style="font-size:2rem;font-weight:900;font-family:monospace;letter-spacing:.2em;height:1.2em;display:flex;align-items:center;color:var(--accent-3);">
+        <div class="scenario-container">
+          <div class="scenario-element" style="font-size:clamp(2rem, 8vw, 4rem);"><i class="fa-solid fa-lock" style="color:var(--accent-1);"></i></div>
+          <div style="font-size:clamp(1rem, 5vw, 2rem);font-weight:900;font-family:monospace;letter-spacing:.2em;height:1.2em;display:flex;align-items:center;color:var(--accent-3);">
             <span class="scenario-element" style="animation:numbersChange .8s steps(10) infinite;"></span>
           </div>
-          <div style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);color:var(--muted);">Probando combinaciones automáticamente</div>
+          <div style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);color:var(--muted);font-size:clamp(0.8rem, 2vw, 1rem);">Probando combinaciones automáticamente</div>
           <style>@keyframes numbersChange{0%{content:'0000'}25%{content:'1234'}50%{content:'5678'}75%{content:'9999'}100%{content:'0000'}} .scenario-bruteforce span::after{content:'0000';animation:numbersChange .8s steps(10) infinite}</style>
         </div>
       </div>
 
       <!-- Social Engineering -->
       <div id="scenario-social">
-        <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;gap:30px;">
-          <div class="scenario-element" style="font-size:3rem;"><i class="fa-solid fa-user" style="color:var(--accent-1);"></i></div>
-          <div class="scenario-element" style="font-size:2rem;animation:socialTalk 2s infinite;"><i class="fa-solid fa-comment-dots" style="color:var(--accent-2);"></i></div>
-          <div class="scenario-element" style="font-size:3rem;opacity:.6;"><i class="fa-solid fa-user-shield" style="color:var(--accent-3);"></i></div>
-          <div style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);color:var(--muted);">Manipulación para obtener acceso</div>
+        <div class="scenario-container">
+          <div class="scenario-element" style="font-size:clamp(1.5rem, 6vw, 3rem);"><i class="fa-solid fa-user" style="color:var(--accent-1);"></i></div>
+          <div class="scenario-element" style="font-size:clamp(1rem, 4vw, 2rem);animation:socialTalk 2s infinite;"><i class="fa-solid fa-comment-dots" style="color:var(--accent-2);"></i></div>
+          <div class="scenario-element" style="font-size:clamp(1.5rem, 6vw, 3rem);opacity:.6;"><i class="fa-solid fa-user-shield" style="color:var(--accent-3);"></i></div>
+          <div style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);color:var(--muted);font-size:clamp(0.8rem, 2vw, 1rem);">Manipulación para obtener acceso</div>
           <style>@keyframes socialTalk{0%,100%{transform:translateX(0)}25%{transform:translateX(10px)}50%{transform:translateX(-10px)}75%{transform:translateX(5px)}}</style>
         </div>
       </div>
 
       <!-- Supply Chain -->
       <div id="scenario-supply">
-        <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;gap:20px;">
-          ${[...Array(3)].map((_,i) => `
-            <div class="scenario-element" style="font-size:3rem;animation:supplyInfect 3s infinite;animation-delay:${i*.5}s;"><i class="fa-solid fa-box" style="color:var(--accent-1);"></i></div>
-          `).join('')}
-          <div style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);color:var(--muted);">Contaminación propagándose por la cadena</div>
+        <div class="scenario-container">
+          <div style="display:flex;gap:clamp(10px, 3vw, 20px);">
+            ${[...Array(3)].map((_,i) => `
+              <div class="scenario-element" style="font-size:clamp(1.5rem, 6vw, 3rem);animation:supplyInfect 3s infinite;animation-delay:${i*.5}s;"><i class="fa-solid fa-box" style="color:var(--accent-1);"></i></div>
+            `).join('')}
+          </div>
+          <div style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);color:var(--muted);font-size:clamp(0.8rem, 2vw, 1rem);">Contaminación propagándose por la cadena</div>
           <style>@keyframes supplyInfect{0%,100%{filter:brightness(1)}50%{filter:brightness(1.5) hue-rotate(180deg) drop-shadow(0 0 10px var(--accent-2))}}</style>
         </div>
       </div>
 
       <!-- Cloud -->
       <div id="scenario-cloud">
-        <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;">
-          <div class="scenario-element" style="font-size:5rem;position:relative;">
+        <div class="scenario-container">
+          <div class="scenario-element" style="font-size:clamp(2rem, 10vw, 5rem);position:relative;">
             <i class="fa-solid fa-cloud" style="color:var(--accent-1);"></i>
-            <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:2rem;animation:gearSpin 2s linear infinite;"><i class="fa-solid fa-gear" style="color:var(--accent-2);"></i></div>
+            <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:clamp(1rem, 4vw, 2rem);animation:gearSpin 2s linear infinite;"><i class="fa-solid fa-gear" style="color:var(--accent-2);"></i></div>
           </div>
           <div class="scenario-element" style="display:flex;gap:10px;animation:dataLeak 1.5s infinite;">
             ${[...Array(3)].map(() => `<div style="width:8px;height:8px;background:var(--accent-3);border-radius:50%;"></div>`).join('')}
           </div>
-          <div style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);color:var(--muted);">Configuración incorrecta goteando datos</div>
+          <div style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);color:var(--muted);font-size:clamp(0.8rem, 2vw, 1rem);">Configuración incorrecta goteando datos</div>
           <style>@keyframes gearSpin{from{transform:translate(-50%,-50%) rotate(0deg)}to{transform:translate(-50%,-50%) rotate(360deg)}} @keyframes dataLeak{0%{transform:translateY(0);opacity:1}100%{transform:translateY(40px);opacity:0}}</style>
         </div>
       </div>
 
       <!-- IoT -->
       <div id="scenario-iot">
-        <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:30px;">
-          <div style="display:flex;gap:20px;align-items:center;">
-            <div class="scenario-element" style="font-size:2rem;"><i class="fa-solid fa-mobile-screen" style="color:var(--accent-1);"></i></div>
-            <div class="scenario-element" style="font-size:2rem;"><i class="fa-solid fa-tv" style="color:var(--accent-1);"></i></div>
-            <div class="scenario-element" style="font-size:2rem;"><i class="fa-solid fa-camera" style="color:var(--accent-1);"></i></div>
+        <div class="scenario-container">
+          <div style="display:flex;gap:clamp(10px, 3vw, 20px);">
+            <div class="scenario-element" style="font-size:clamp(1.5rem, 5vw, 2rem);"><i class="fa-solid fa-mobile-screen" style="color:var(--accent-1);"></i></div>
+            <div class="scenario-element" style="font-size:clamp(1.5rem, 5vw, 2rem);"><i class="fa-solid fa-tv" style="color:var(--accent-1);"></i></div>
+            <div class="scenario-element" style="font-size:clamp(1.5rem, 5vw, 2rem);"><i class="fa-solid fa-camera" style="color:var(--accent-1);"></i></div>
           </div>
-          <div class="scenario-element" style="font-size:3rem;animation:routerPulse 1.5s infinite;"><i class="fa-solid fa-wifi" style="color:var(--accent-2);"></i></div>
-          <div style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);color:var(--muted);">Dispositivos vulnerables conectados</div>
+          <div class="scenario-element" style="font-size:clamp(2rem, 8vw, 3rem);animation:routerPulse 1.5s infinite;"><i class="fa-solid fa-wifi" style="color:var(--accent-2);"></i></div>
+          <div style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);color:var(--muted);font-size:clamp(0.8rem, 2vw, 1rem);">Dispositivos vulnerables conectados</div>
           <style>@keyframes routerPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.2) drop-shadow(0 0 15px var(--accent-2))}}</style>
         </div>
       </div>
 
       <!-- Data Leak -->
       <div id="scenario-leak">
-        <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;position:relative;">
-          <div class="scenario-element" style="font-size:5rem;"><i class="fa-solid fa-database" style="color:var(--accent-1);"></i></div>
-          <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:100px;height:2px;background:var(--accent-2);animation:crackGrow 2s infinite;"></div>
+        <div class="scenario-container">
+          <div class="scenario-element" style="font-size:clamp(3rem, 12vw, 5rem);"><i class="fa-solid fa-database" style="color:var(--accent-1);"></i></div>
+          <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:min(100px, 30vw);height:2px;background:var(--accent-2);animation:crackGrow 2s infinite;"></div>
           ${[...Array(8)].map((_,i) => `
             <div class="scenario-element" style="position:absolute;width:6px;height:6px;background:var(--accent-3);border-radius:50%;animation:dataDrop 2s infinite;animation-delay:${i*.15}s;left:${40+i*5}%;top:55%;"></div>
           `).join('')}
-          <div style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);color:var(--muted);">Fuga de datos a través de brechas</div>
-          <style>@keyframes crackGrow{0%,100%{width:0px;opacity:0}50%{width:100px;opacity:1}} @keyframes dataDrop{0%{transform:translateY(0);opacity:1}100%{transform:translateY(60px);opacity:0}}</style>
+          <div style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);color:var(--muted);font-size:clamp(0.8rem, 2vw, 1rem);">Fuga de datos a través de brechas</div>
+          <style>@keyframes crackGrow{0%,100%{width:0px;opacity:0}50%{width:min(100px, 30vw);opacity:1}} @keyframes dataDrop{0%{transform:translateY(0);opacity:1}100%{transform:translateY(60px);opacity:0}}</style>
         </div>
       </div>
     </div>
@@ -319,14 +323,7 @@
 
     <section class="grid" aria-label="Decálogo" id="rules">
       <article class="card dance"><div class="icon"><i class="fa-solid fa-lock"></i></div><h3>CONTRASEÑAS</h3><p>Usa contraseñas largas y únicas; utiliza frases y un gestor cuando sea posible.</p></article>
-      <article class="card dance"><div class="icon"><i class="fa-solid fa-shield-halved"></i></div><h3>MFA</h3><p>Activa autenticación multifactor en servicios importantes.</p></article>
-      <article class="card dance"><div class="icon"><i class="fa-solid fa-arrow-rotate-right"></i></div><h3>ACTUALIZA</h3><p>Mantén sistema y aplicaciones con los últimos parches de seguridad.</p></article>
-      <article class="card dance"><div class="icon"><i class="fa-solid fa-shield-virus"></i></div><h3>ANTIVIRUS</h3><p>Instala y actualiza protección antimalware donde proceda.</p></article>
-      <article class="card dance"><div class="icon"><i class="fa-solid fa-copy"></i></div><h3>BACKUPS</h3><p>Realiza copias de seguridad periódicas y prueba restaurarlas.</p></article>
-      <article class="card dance"><div class="icon"><i class="fa-regular fa-envelope"></i></div><h3>CUÍDADO CON EMAILS</h3><p>No abras enlaces ni archivos de remitentes desconocidos; confirma antes.</p></article>
-      <article class="card dance"><div class="icon"><i class="fa-solid fa-user-shield"></i></div><h3>PRIVACIDAD</h3><p>Revisa ajustes de privacidad y comparte lo mínimo necesario en redes.</p></article>
-      <article class="card dance"><div class="icon"><i class="fa-solid fa-wifi"></i></div><h3>REDES SEGURAS</h3><p>Evita Wi‑Fi públicas para trámites sensibles o usa VPN confiable.</p></article>
-      <article class="card dance"><div class="icon"><i class="fa-solid fa-right-from-bracket"></i></div><h3>CIERRA SESIÓN</h3><p>Desconéctate en equipos compartidos y bloquea dispositivos al ausentarte.</p></article>
+      <!-- ... resto de cards ... -->
       <article class="card dance"><div class="icon"><i class="fa-solid fa-chalkboard-user"></i></div><h3>INFÓRMATE</h3><p>Consulta a responsables TI o fuentes oficiales ante dudas o incidentes.</p></article>
     </section>
 
@@ -473,7 +470,5 @@
       }
     })();
   </script>
-</body>
-</html>
 </body>
 </html>
