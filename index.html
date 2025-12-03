@@ -1,0 +1,573 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Ciberseguridad — Animaciones Interactivas</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    :root{
+      --accent-1: #00f0ff;
+      --accent-2: #ff3d9a;
+      --accent-3: #ffd400;
+      --bg-dark: #071020;
+      --card-radius: 16px;
+      --light: #eafcff;
+      --muted: #9fdcff;
+      --content-bg: linear-gradient(120deg, rgba(10,30,60,0.98), rgba(2,10,30,0.98));
+      --gradText: linear-gradient(90deg, #00f5ff, #7b61ff, #ff6a88, #ffd27a, #7effb2, #00f5ff);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{ margin:0; min-height:100vh; font-family:"Montserrat",system-ui,-apple-system,"Segoe UI",Roboto,Arial; background: var(--bg-dark); color:var(--light); -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
+
+    .page{ min-height:100vh; padding:48px 20px 88px; background:var(--content-bg); position:relative; overflow:hidden; perspective:1600px; }
+    .page::before{ content:""; position:fixed; inset:-25% -25% -25% -25%; z-index:-2; background: conic-gradient(from 0deg at 50% 50%, #ff004d, #ff8a00, #ffee00, #00ff9d, #00b2ff, #9a00ff, #ff004d); background-size:220% 220%; filter: blur(44px) saturate(200%); opacity:0.18; transform: scale(1.02); animation: spin 20s linear infinite; mix-blend-mode: screen; }
+    @keyframes spin{0%{transform:rotate(0)}50%{transform:rotate(180deg) scale(1.02)}100%{transform:rotate(360deg)}}
+
+    .float-shape{ position:absolute; width:220px; height:220px; border-radius:32px; filter:blur(40px); opacity:0.08; z-index:-1; }
+    .s1{ right:6%; top:4%; background:linear-gradient(45deg,#00f0ff66,#7b61ff66); animation: floaty 10s ease-in-out infinite; }
+    .s2{ left:4%; bottom:6%; background:linear-gradient(45deg,#ff6a8866,#ffd27a66); animation: floaty 14s ease-in-out infinite reverse; }
+    @keyframes floaty{ 0%{transform:translateY(0) rotate(0)}50%{transform:translateY(-30px) rotate(8deg)}100%{transform:translateY(0) rotate(0)} }
+
+    header{ max-width:1100px; margin:0 auto 18px; padding:6px 18px; }
+
+    .title{
+      font-size:3.4rem; margin:0; line-height:1; font-weight:900; letter-spacing:-0.02em;
+      background: var(--gradText); background-size:420% 100%; -webkit-background-clip:text; background-clip:text; color:transparent;
+      animation: hueShift 4.6s linear infinite, titleBeams 3.6s ease-in-out infinite;
+      text-shadow: 0 12px 56px rgba(123,97,255,0.22), 0 36px 160px rgba(255,106,136,0.08), 0 0 260px rgba(0,245,255,0.09);
+      filter: saturate(1.55) contrast(1.05);
+    }
+    @keyframes hueShift{ 0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%} }
+    @keyframes titleBeams{ 0%{filter:brightness(1) saturate(1.4)}30%{filter:brightness(1.35) saturate(1.6) drop-shadow(0 8px 36px rgba(255,255,255,0.06))}60%{filter:brightness(1.6) saturate(1.8) drop-shadow(0 18px 90px rgba(255,255,255,0.09))}100%{filter:brightness(1) saturate(1.4)} }
+    .title::after{ content:""; display:block; height:10px; width:72%; margin-top:10px; background:linear-gradient(90deg,#00f5ff88,#7b61ff88,#ff6a8888); filter:blur(28px); opacity:0.98; border-radius:12px; }
+
+    .subtitle{ margin-top:12px; color:var(--muted); font-size:1rem; max-width:980px; }
+
+    .grid{ max-width:1100px; margin:28px auto 0; display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:18px; }
+
+    .card{
+      padding:18px; border-radius: calc(var(--card-radius) + 4px); background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02)); border:1px solid rgba(255,255,255,0.035);
+      box-shadow: 0 14px 36px rgba(2,10,20,0.52); color:var(--light); display:flex; flex-direction:column; gap:10px; min-height:120px;
+      transition: transform .28s cubic-bezier(.2,.9,.2,1), box-shadow .28s, filter .28s; transform-origin:center center; opacity:0; transform: translateY(14px) scale(.99);
+      position:relative; will-change:transform; transform-style:preserve-3d; cursor:pointer; overflow:visible; }
+
+    .card.visible{ opacity:1; transform: translateY(0) scale(1); animation: popIn .6s cubic-bezier(.2,.9,.2,1); animation-delay: calc(var(--i,0) * 60ms); }
+    @keyframes popIn{ 0%{opacity:0; transform:translateY(10px) scale(.992) rotateX(6deg)} 60%{transform:translateY(-6px) scale(1.02) rotateX(0)} 100%{opacity:1; transform:translateY(0) scale(1)} }
+
+    @keyframes danceXy{ 0%{ transform: translateX(calc(var(--dance-range,8px) * -1)) translateY(0) rotate(-0.6deg) } 50%{ transform: translateX(calc(var(--dance-range,8px))) translateY(2px) rotate(0.8deg) } 100%{ transform: translateX(calc(var(--dance-range,8px) * -1)) translateY(0) rotate(-0.6deg) } }
+    .card.dance{ animation: danceXy var(--dance-dur,4.8s) ease-in-out infinite; }
+
+    .card:hover{ transform: translateY(-18px) scale(1.06) rotateZ(-0.8deg); box-shadow: 0 46px 100px rgba(0,0,0,0.68), 0 0 38px rgba(255,106,136,0.06) inset; filter:brightness(1.04) saturate(1.08); z-index:6; }
+    .card::after{ content:""; position:absolute; left:-12%; top:-20px; width:124%; height:200%; pointer-events:none; background: radial-gradient(500px 120px at 20% 10%, rgba(255,255,255,0.04), transparent 12%), linear-gradient(90deg, rgba(255,255,255,0.02), transparent 40%); transform: translateY(6px) rotate(2deg); opacity:0; transition: opacity .32s, transform .5s; border-radius:inherit; mix-blend-mode: screen; }
+    .card:hover::after{ opacity:1; transform: translateY(-6px) rotate(-0.5deg); }
+
+    .icon{ font-size:28px; color:transparent; width:54px; height:54px; display:inline-flex; align-items:center; justify-content:center; border-radius:12px; background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02)); border:1px solid rgba(255,255,255,0.03); position:relative; z-index:2; }
+    .icon i{ color:var(--accent-1); transition: transform .32s cubic-bezier(.2,.9,.2,1), color .28s, text-shadow .28s; font-size:20px; }
+    .card:hover .icon i{ transform:translateY(-8px) scale(1.12) rotate(-8deg); color:var(--accent-2); text-shadow:0 8px 24px rgba(255,106,136,0.14); }
+
+    .card h3{ margin:0; font-size:1.05rem; color:#fff; font-weight:900; letter-spacing:0.005em; position:relative; z-index:2; background: linear-gradient(90deg,#ffd27a,#ff6a88,#7b61ff); -webkit-background-clip:text; background-clip:text; color:transparent; filter: saturate(1.25); text-shadow:0 6px 24px rgba(255,106,136,0.06); }
+    .card p{ margin:0; color:#dff7fb; line-height:1.45; font-size:0.95rem; position:relative; z-index:2; }
+
+    .spark{ position:absolute; width:6px; height:6px; border-radius:50%; pointer-events:none; opacity:0; transform:scale(0.6); mix-blend-mode: screen; }
+
+    .section-title{ font-size:1.6rem; margin:36px auto 8px; max-width:1100px; text-transform:uppercase; letter-spacing:0.08em; font-weight:900; background: linear-gradient(90deg,#00f5ff,#7b61ff,#ff6a88,#ffd27a,#7effb2); -webkit-background-clip:text; background-clip:text; color:transparent; text-shadow: 0 10px 48px rgba(123,97,255,0.16), 0 30px 140px rgba(255,106,136,0.07); text-align:center; filter: saturate(1.45); }
+    .section-sub{ max-width:1100px; margin:0 auto 18px; color:rgba(200,240,255,0.95); text-align:center }
+
+    .lightbox{ position:fixed; inset:0; display:none; align-items:center; justify-content:center; background: rgba(2,6,12,0.92); z-index:1600; padding:24px; }
+    .lightbox.active{ display:flex; }
+    .lightbox .frame{ margin:auto; width:min(900px,92%); max-height:min(640px,86%); background:linear-gradient(180deg,#0a0f1a,#060a12); border-radius:16px; overflow:hidden; position:relative; box-shadow:0 40px 140px rgba(0,0,0,0.85), 0 0 80px rgba(123,97,255,0.06); animation: lbPop .28s cubic-bezier(.2,.9,.2,1); display:flex; flex-direction:column; }
+    @keyframes lbPop{ from{transform:scale(.92) rotateX(8deg); opacity:0} to{transform:scale(1) rotateX(0); opacity:1} }
+    .lightbox .close{ position:absolute; right:14px; top:14px; background:linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02)); color:#fff; border-radius:10px; padding:10px 12px; border:0; cursor:pointer; z-index:5; backdrop-filter: blur(6px); box-shadow:0 8px 30px rgba(0,0,0,0.6); }
+
+    .threat-scenario{ flex:1; padding:24px; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; }
+    .threat-title{ margin:0; padding:14px 18px; background: rgba(255,255,255,0.02); border-bottom:1px solid rgba(255,255,255,0.06); font-size:1.2rem; font-weight:900; letter-spacing:0.05em; background: linear-gradient(90deg,#00f5ff,#7b61ff); -webkit-background-clip:text; background-clip:text; color:transparent; }
+
+    /* Animaciones de amenazas */
+    .scenario-element{ position:absolute; transition:all .3s ease; }
+    .scenario-pulse{ animation: scenarioPulse 2s infinite; }
+    @keyframes scenarioPulse{ 0%,100%{opacity:.6; transform:scale(1)} 50%{opacity:1; transform:scale(1.05)} }
+
+    .refs{ max-width:1100px; margin:28px auto 0; padding:18px; border-radius:12px; background: rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.03); color:var(--muted); }
+    .refs a{ color:var(--accent-1); text-decoration:underline; }
+
+    @media (max-width:780px){ .title{ font-size:1.9rem } .card{ padding:14px } .icon{ width:48px; height:48px } .lightbox .frame{ width:min(500px,92%); } }
+  </style>
+</head>
+<body>
+  <div class="page" role="main">
+    <div class="float-shape s1" aria-hidden="true"></div>
+    <div class="float-shape s2" aria-hidden="true"></div>
+
+    <header>
+      <h1 class="title">Ciberseguridad</h1>
+      <p class="subtitle">Definición, principales amenazas y decálogo de buenas prácticas.</p>
+    </header>
+
+    <section aria-label="Principales amenazas" class="content">
+      <h2 class="section-title">PRINCIPALES AMENAZAS</h2>
+      <p class="section-sub">Haz clic en cada amenaza para ver un ejemplo animado.</p>
+
+      <div class="grid" id="threats">
+        <article class="card dance" role="button" data-threat="phishing" tabindex="0">
+          <div class="icon"><i class="fa-regular fa-envelope-open"></i></div>
+          <h3>PHI$H!NG</h3>
+          <p>Mensajes falsos que buscan engañar para robar credenciales o datos bancarios.</p>
+        </article>
+
+        <article class="card dance" role="button" data-threat="malware" tabindex="0">
+          <div class="icon"><i class="fa-solid fa-bug"></i></div>
+          <h3>MΛLWΛRE</h3>
+          <p>Software malicioso: virus, troyanos y spyware que dañan o espían dispositivos.</p>
+        </article>
+
+        <article class="card dance" role="button" data-threat="ransomware" tabindex="0">
+          <div class="icon"><i class="fa-solid fa-lock"></i></div>
+          <h3>RΔNS0MWΔRE</h3>
+          <p>Malware que cifra datos y exige rescate; mantener backups reduce impacto.</p>
+        </article>
+
+        <article class="card dance" role="button" data-threat="ddos" tabindex="0">
+          <div class="icon"><i class="fa-solid fa-server"></i></div>
+          <h3>DDO$</h3>
+          <p>Ataques que saturan servidores con tráfico falso para interrumpir servicios.</p>
+        </article>
+
+        <article class="card dance" role="button" data-threat="bruteforce" tabindex="0">
+          <div class="icon"><i class="fa-solid fa-key"></i></div>
+          <h3>FUERZA BRUTA</h3>
+          <p>Intentos automatizados para adivinar contraseñas débiles mediante muchas combinaciones.</p>
+        </article>
+
+        <article class="card dance" role="button" data-threat="social" tabindex="0">
+          <div class="icon"><i class="fa-solid fa-user-secret"></i></div>
+          <h3>INGENIERÍA SOCIAL</h3>
+          <p>Manipulación psicológica para obtener acceso o información.</p>
+        </article>
+
+        <article class="card dance" role="button" data-threat="supply" tabindex="0">
+          <div class="icon"><i class="fa-solid fa-truck-fast"></i></div>
+          <h3>SUPPLY CHA!N</h3>
+          <p>Comprometer proveedores o software de terceros para infiltrar plataformas legítimas.</p>
+        </article>
+
+        <article class="card dance" role="button" data-threat="cloud" tabindex="0">
+          <div class="icon"><i class="fa-solid fa-cloud"></i></div>
+          <h3>NUBE</h3>
+          <p>Errores de configuración en cloud que permiten fugas de datos o accesos no autorizados.</p>
+        </article>
+
+        <article class="card dance" role="button" data-threat="iot" tabindex="0">
+          <div class="icon"><i class="fa-solid fa-wifi"></i></div>
+          <h3>IØT</h3>
+          <p>Dispositivos conectados sin protecciones que se convierten en puerta de entrada para atacantes.</p>
+        </article>
+
+        <article class="card dance" role="button" data-threat="leak" tabindex="0">
+          <div class="icon"><i class="fa-solid fa-database"></i></div>
+          <h3>DATA LEAK</h3>
+          <p>Exposición o robo de información sensible que puede derivar en fraude o suplantación.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Lightbox para amenazas -->
+    <div id="threat-lightbox" class="lightbox" role="dialog" aria-hidden="true" aria-labelledby="threat-title">
+      <div class="frame">
+        <button class="close" id="threat-close" aria-label="Cerrar"><i class="fa-solid fa-xmark"></i></button>
+        <h3 class="threat-title" id="threat-title">Ejemplo de Amenaza</h3>
+        <div class="threat-scenario" id="threat-scenario"></div>
+      </div>
+    </div>
+
+    <!-- Resto del contenido original -->
+    <div class="header-decal" style="max-width:1100px;margin:32px auto 0;padding:6px 18px;">
+      <h2 class="section-title">DECÁLOGO — Buenas prácticas</h2>
+      <p class="section-sub">Diez acciones sencillas y efectivas para proteger cuentas, dispositivos y datos.</p>
+    </div>
+
+    <section class="grid" aria-label="Decálogo" id="rules">
+      <article class="card dance"><div class="icon"><i class="fa-solid fa-lock"></i></div><h3>CONTRASEÑAS</h3><p>Usa contraseñas largas y únicas; utiliza frases y un gestor cuando sea posible.</p></article>
+      <article class="card dance"><div class="icon"><i class="fa-solid fa-shield-halved"></i></div><h3>MFA</h3><p>Activa autenticación multifactor en servicios importantes.</p></article>
+      <article class="card dance"><div class="icon"><i class="fa-solid fa-arrow-rotate-right"></i></div><h3>ACTUALIZA</h3><p>Mantén sistema y aplicaciones con los últimos parches de seguridad.</p></article>
+      <article class="card dance"><div class="icon"><i class="fa-solid fa-shield-virus"></i></div><h3>ANTIVIRUS</h3><p>Instala y actualiza protección antimalware donde proceda.</p></article>
+      <article class="card dance"><div class="icon"><i class="fa-solid fa-copy"></i></div><h3>BACKUPS</h3><p>Realiza copias de seguridad periódicas y prueba restaurarlas.</p></article>
+      <article class="card dance"><div class="icon"><i class="fa-regular fa-envelope"></i></div><h3>CUÍDADO CON EMAILS</h3><p>No abras enlaces ni archivos de remitentes desconocidos; confirma antes.</p></article>
+      <article class="card dance"><div class="icon"><i class="fa-solid fa-user-shield"></i></div><h3>PRIVACIDAD</h3><p>Revisa ajustes de privacidad y comparte lo mínimo necesario en redes.</p></article>
+      <article class="card dance"><div class="icon"><i class="fa-solid fa-wifi"></i></div><h3>REDES SEGURAS</h3><p>Evita Wi‑Fi públicas para trámites sensibles o usa VPN confiable.</p></article>
+      <article class="card dance"><div class="icon"><i class="fa-solid fa-right-from-bracket"></i></div><h3>CIERRA SESIÓN</h3><p>Desconéctate en equipos compartidos y bloquea dispositivos al ausentarte.</p></article>
+      <article class="card dance"><div class="icon"><i class="fa-solid fa-chalkboard-user"></i></div><h3>INFÓRMATE</h3><p>Consulta a responsables TI o fuentes oficiales ante dudas o incidentes.</p></article>
+    </section>
+
+    <!-- VISOR DE FOTOS -->
+    <div style="max-width:1100px;margin:42px auto 0;padding:6px 18px;">
+      <h2 class="section-title">VISOR DE FOTOS</h2>
+      <p class="section-sub">Haz clic en una imagen para verla.</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;">
+        <button class="card visible" style="min-width:260px;cursor:pointer" data-image="https://drive.google.com/uc?export=view&id=1xPaqrSBADHyoigmlWjfOzqelXhZjTzgF">
+          <div style="display:flex;gap:12px;align-items:center"><div class="icon"><i class="fa-solid fa-image"></i></div><div><h3 style="margin:0">Foto 1</h3><p style="margin:6px 0 0;color:#dff7fb;font-size:0.92rem">Abrir imagen proveniente de Drive</p></div></div>
+        </button>
+        <button class="card visible" style="min-width:260px;cursor:pointer" data-image="https://drive.google.com/uc?export=view&id=1hbnC6Waz5MnXrzdQIppWfcA2_Pde_ms9">
+          <div style="display:flex;gap:12px;align-items:center"><div class="icon"><i class="fa-solid fa-photo-film"></i></div><div><h3 style="margin:0">Foto 2</h3><p style="margin:6px 0 0;color:#dff7fb;font-size:0.92rem">Abrir imagen proveniente de Drive</p></div></div>
+        </button>
+      </div>
+    </div>
+
+    <div id="image-lightbox" class="lightbox" role="dialog" aria-hidden="true" aria-label="Visor de imagen">
+      <div class="frame"><button class="close" id="image-close" aria-label="Cerrar visor"><i class="fa-solid fa-xmark"></i></button><iframe id="image-frame" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe></div>
+    </div>
+
+    <aside class="refs" aria-label="Referencias recomendadas">
+      <strong>Sugerencias y referencias útiles</strong>
+      <ul style="margin:12px 0 0 18px; color:var(--muted)">
+        <li><a href="https://www.ibm.com/es-es/topics/cybersecurity" target="_blank" rel="noopener">IBM — Qué es la ciberseguridad</a>.</li>
+        <li><a href="https://www.incibe.es/" target="_blank" rel="noopener">INCIBE — Instituto Nacional de Ciberseguridad (España)</a>.</li>
+        <li><a href="https://www.pantallasamigas.net/" target="_blank" rel="noopener">PantallasAmigas — recursos para menores y familias</a>.</li>
+      </ul>
+    </aside>
+
+    <footer style="text-align:center; margin-top:42px; color:var(--muted);">Hecho para clase</footer>
+  </div>
+
+  <script>
+    // Original reveal + dance
+    const gridCards = document.querySelectorAll('.grid .card');
+    const obs = new IntersectionObserver((entries, o) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          const idx = Array.from(gridCards).indexOf(entry.target);
+          entry.target.style.setProperty('--i', idx);
+          const baseRange = 8 + (idx % 3) * 4;
+          const range = baseRange + Math.round(Math.random()*6) + 'px';
+          const dur = (3.6 + Math.random()*2.2).toFixed(2) + 's';
+          const delay = (Math.random()*500).toFixed(0) + 'ms';
+          entry.target.style.setProperty('--dance-range', range);
+          entry.target.style.setProperty('--dance-dur', dur);
+          entry.target.style.animationDelay = delay;
+          entry.target.classList.add('visible');
+          entry.target.classList.add('dance');
+          o.unobserve(entry.target);
+        }
+      });
+    }, {threshold: 0.12});
+    gridCards.forEach(c => obs.observe(c));
+
+    // NUEVO: Modal de amenazas
+    const threatModal = document.getElementById('threat-lightbox');
+    const threatScenario = document.getElementById('threat-scenario');
+    const threatTitle = document.getElementById('threat-title');
+    const threatClose = document.getElementById('threat-close');
+
+    // Generadores de escenarios por amenaza
+    const threatScenarios = {
+      phishing: () => {
+        return `
+          <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;">
+            <div class="scenario-element" style="font-size:4rem;animation: scenarioPulse 1.5s infinite;"><i class="fa-regular fa-envelope-open" style="color:var(--accent-1);"></i></div>
+            <div class="scenario-element" style="font-size:3rem;animation-delay:.3s;"><i class="fa-solid fa-fish" style="color:var(--accent-2);"></i></div>
+            <div class="scenario-element" style="position:relative;width:200px;height:8px;background:linear-gradient(90deg,var(--accent-1),var(--accent-2));border-radius:4px;overflow:hidden;">
+              <div style="position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,var(--light),transparent);animation:swipe 2s infinite;"></div>
+            </div>
+            <p style="color:var(--muted);text-align:center;">Mensaje legítimo → Anzuelo oculto → Robo de credenciales</p>
+          </div>
+          <style>
+            @keyframes swipe{ 0%{left:-100%} 50%{left:100%} 100%{left:100%} }
+            @keyframes scenarioPulse{ 0%,100%{opacity:.6;transform:scale(1) translateY(0)} 50%{opacity:1;transform:scale(1.1) translateY(-10px)} }
+          </style>
+        `;
+      },
+      malware: () => {
+        return `
+          <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;position:relative;">
+            <div class="scenario-element" style="font-size:5rem;z-index:2;"><i class="fa-solid fa-file" style="color:var(--accent-1);"></i></div>
+            <div class="scenario-element" style="position:absolute;animation: bugSpread 3s infinite;"></div>
+            <div style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);color:var(--muted);">Archivo infectado libera malware</div>
+          </div>
+          <style>
+            @keyframes bugSpread{
+              0%{ transform:scale(0); opacity:0 }
+              50%{ transform:scale(2.5); opacity:.8 }
+              100%{ transform:scale(4); opacity:0 }
+            }
+            .scenario-element:nth-child(2)::before{
+              content:'🦠';
+              font-size:3rem;
+              position:absolute;
+              animation: bugsFloat 2s infinite ease-in-out;
+            }
+            @keyframes bugsFloat{
+              0%,100%{ transform:translate(0,0) rotate(0deg) }
+              25%{ transform:translate(20px,-20px) rotate(90deg) }
+              50%{ transform:translate(-20px,-30px) rotate(180deg) }
+              75%{ transform:translate(-30px,10px) rotate(270deg) }
+            }
+          </style>
+        `;
+      },
+      ransomware: () => {
+        return `
+          <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;gap:15px;">
+            ${[...Array(6)].map((_,i) => `
+              <div class="scenario-element" style="width:60px;height:80px;background:linear-gradient(180deg,#2a4a7a,#1a2a4a);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;animation: lockFiles 2s infinite;animation-delay:${i*.2}s;">
+                <i class="fa-solid fa-file" style="color:var(--accent-1);"></i>
+              </div>
+            `).join('')}
+          </div>
+          <div style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);color:var(--muted);">Cifrado progresivo de archivos</div>
+          <style>
+            @keyframes lockFiles{
+              0%,100%{ background:linear-gradient(180deg,#2a4a7a,#1a2a4a); transform:scale(1) }
+              50%{ background:linear-gradient(180deg,var(--accent-2),#7a1a4a); transform:scale(.95) }
+              51%{ transform:scale(.95) }
+              52%{ transform:scale(.95) rotateY(180deg) }
+              53%{ transform:scale(.95) rotateY(180deg) }
+              54%{ transform:scale(.95) rotateY(0deg) }
+              55%{ transform:scale(.95) rotateY(0deg) }
+              56%{ transform:scale(1) }
+            }
+          </style>
+        `;
+      },
+      ddos: () => {
+        return `
+          <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;position:relative;">
+            <div class="scenario-element" style="font-size:4rem;z-index:2;"><i class="fa-solid fa-server" style="color:var(--accent-1);"></i></div>
+            ${[...Array(12)].map((_,i) => `
+              <div class="scenario-element" style="position:absolute;width:4px;height:40px;background:linear-gradient(180deg,var(--accent-3),var(--accent-2));border-radius:2px;transform-origin:bottom;animation: ddosPulse 1s infinite;animation-delay:${i*.08}s;transform:translate(-50%,-100%) rotate(${i*30}deg);"></div>
+            `).join('')}
+          </div>
+          <div style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);color:var(--muted);">Múltiples fuentes saturando el servidor</div>
+          <style>
+            @keyframes ddosPulse{
+              0%{ opacity:0; transform:translate(-50%,-100%) rotate(var(--rotation)) scaleY(0) }
+              50%{ opacity:1; transform:translate(-50%,-100%) rotate(var(--rotation)) scaleY(1) }
+              100%{ opacity:0; transform:translate(-50%,-120%) rotate(var(--rotation)) scaleY(1.2) }
+            }
+            .scenario-element:nth-child(n+2){ --rotation:0deg; }
+          </style>
+        `;
+      },
+      bruteforce: () => {
+        return `
+          <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;">
+            <div class="scenario-element" style="font-size:4rem;"><i class="fa-solid fa-lock" style="color:var(--accent-1);"></i></div>
+            <div style="font-size:2rem;font-weight:900;font-family:monospace;letter-spacing:.2em;height:1.2em;display:flex;align-items:center;color:var(--accent-3);">
+              <span class="scenario-element" style="animation: numbersChange .3s infinite;"></span>
+            </div>
+            <div style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);color:var(--muted);">Probando combinaciones automáticamente</div>
+          </div>
+          <style>
+            @keyframes numbersChange{
+              0%{ content:'0000' }
+              10%{ content:'1234' }
+              20%{ content:'5678' }
+              30%{ content:'9876' }
+              40%{ content:'4321' }
+              50%{ content:'1111' }
+              60%{ content:'2468' }
+              70%{ content:'1357' }
+              80%{ content:'9999' }
+              90%{ content:'0007' }
+              100%{ content:'0000' }
+            }
+            .scenario-element span::after{ content:'0000'; animation: numbersChange .8s steps(10) infinite; }
+          </style>
+        `;
+      },
+      social: () => {
+        return `
+          <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;gap:30px;">
+            <div class="scenario-element" style="font-size:3rem;"><i class="fa-solid fa-user" style="color:var(--accent-1);"></i></div>
+            <div class="scenario-element" style="font-size:2rem;animation: socialTalk 2s infinite;"><i class="fa-solid fa-comment-dots" style="color:var(--accent-2);"></i></div>
+            <div class="scenario-element" style="font-size:3rem;opacity:.6;"><i class="fa-solid fa-user-shield" style="color:var(--accent-3);"></i></div>
+            <div style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);color:var(--muted);">Manipulación para obtener acceso</div>
+          </div>
+          <style>
+            @keyframes socialTalk{
+              0%,100%{ transform:translateX(0) scale(1) }
+              25%{ transform:translateX(10px) scale(1.1) }
+              50%{ transform:translateX(-10px) scale(1.1) }
+              75%{ transform:translateX(5px) scale(1.05) }
+            }
+          </style>
+        `;
+      },
+      supply: () => {
+        return `
+          <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;gap:20px;">
+            <div class="scenario-element" style="font-size:3rem;animation: supplyInfect 3s infinite;"><i class="fa-solid fa-box" style="color:var(--accent-1);"></i></div>
+            <div class="scenario-element" style="font-size:3rem;animation: supplyInfect 3s infinite .5s;"><i class="fa-solid fa-box" style="color:var(--accent-1);"></i></div>
+            <div class="scenario-element" style="font-size:3rem;animation: supplyInfect 3s infinite 1s;"><i class="fa-solid fa-box" style="color:var(--accent-1);"></i></div>
+            <div style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);color:var(--muted);">Contaminación propagándose por la cadena</div>
+          </div>
+          <style>
+            @keyframes supplyInfect{
+              0%,100%{ filter:brightness(1) hue-rotate(0deg) }
+              50%{ filter:brightness(1.5) hue-rotate(180deg) drop-shadow(0 0 10px var(--accent-2)) }
+            }
+          </style>
+        `;
+      },
+      cloud: () => {
+        return `
+          <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;">
+            <div class="scenario-element" style="font-size:5rem;position:relative;"><i class="fa-solid fa-cloud" style="color:var(--accent-1);"></i>
+              <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:2rem;animation: gearSpin 2s linear infinite;"><i class="fa-solid fa-gear" style="color:var(--accent-2);"></i></div>
+            </div>
+            <div class="scenario-element" style="display:flex;gap:10px;animation: dataLeak 1.5s infinite;">
+              <div style="width:8px;height:8px;background:var(--accent-3);border-radius:50%;"></div>
+              <div style="width:8px;height:8px;background:var(--accent-3);border-radius:50%;"></div>
+              <div style="width:8px;height:8px;background:var(--accent-3);border-radius:50%;"></div>
+            </div>
+            <div style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);color:var(--muted);">Configuración incorrecta goteando datos</div>
+          </div>
+          <style>
+            @keyframes gearSpin{ from{transform:translate(-50%,-50%) rotate(0deg)} to{transform:translate(-50%,-50%) rotate(360deg)} }
+            @keyframes dataLeak{
+              0%{ transform:translateY(0); opacity:1 }
+              100%{ transform:translateY(40px); opacity:0 }
+            }
+          </style>
+        `;
+      },
+      iot: () => {
+        return `
+          <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:30px;">
+            <div style="display:flex;gap:20px;align-items:center;">
+              <div class="scenario-element" style="font-size:2rem;"><i class="fa-solid fa-mobile-screen" style="color:var(--accent-1);"></i></div>
+              <div class="scenario-element" style="font-size:2rem;"><i class="fa-solid fa-tv" style="color:var(--accent-1);"></i></div>
+              <div class="scenario-element" style="font-size:2rem;"><i class="fa-solid fa-camera" style="color:var(--accent-1);"></i></div>
+            </div>
+            <div class="scenario-element" style="font-size:3rem;animation: routerPulse 1.5s infinite;"><i class="fa-solid fa-wifi" style="color:var(--accent-2);"></i></div>
+            <div style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);color:var(--muted);">Dispositivos vulnerables conectados</div>
+          </div>
+          <style>
+            @keyframes routerPulse{
+              0%,100%{ transform:scale(1); filter:brightness(1) }
+              50%{ transform:scale(1.2); filter:brightness(1.5) drop-shadow(0 0 15px var(--accent-2)) }
+            }
+          </style>
+        `;
+      },
+      leak: () => {
+        return `
+          <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;position:relative;">
+            <div class="scenario-element" style="font-size:5rem;"><i class="fa-solid fa-database" style="color:var(--accent-1);"></i></div>
+            <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:100px;height:2px;background:var(--accent-2);animation: crackGrow 2s infinite;"></div>
+            ${[...Array(8)].map((_,i) => `
+              <div class="scenario-element" style="position:absolute;width:6px;height:6px;background:var(--accent-3);border-radius:50%;animation: dataDrop 2s infinite;animation-delay:${i*.15}s;left:${40+i*5}%;top:55%;"></div>
+            `).join('')}
+            <div style="position:absolute;bottom:20px;left:50%;transform:translateX(-50%);color:var(--muted);">Fuga de datos a través de brechas</div>
+          </div>
+          <style>
+            @keyframes crackGrow{
+              0%,100%{ width:0px; opacity:0 }
+              50%{ width:100px; opacity:1 }
+            }
+            @keyframes dataDrop{
+              0%{ transform:translateY(0) translateX(0); opacity:1 }
+              100%{ transform:translateY(60px) translateX(${Math.random()*40-20}px); opacity:0 }
+            }
+          </style>
+        `;
+      }
+    };
+
+    // Abrir modal de amenaza
+    document.querySelectorAll('[data-threat]').forEach(card => {
+      card.addEventListener('click', () => {
+        const threat = card.dataset.threat;
+        const title = card.querySelector('h3').textContent;
+        threatTitle.textContent = `Ejemplo: ${title}`;
+        threatScenario.innerHTML = threatScenarios[threat]();
+        threatModal.classList.add('active');
+        threatModal.setAttribute('aria-hidden','false');
+        document.body.style.overflow='hidden';
+      });
+      
+      // Accesibilidad: activar con Enter/Espacio
+      card.addEventListener('keydown', e => {
+        if(e.key==='Enter'||e.key===' ') { e.preventDefault(); card.click(); }
+      });
+    });
+
+    // Cerrar modal de amenaza
+    function closeThreatModal() {
+      threatModal.classList.remove('active');
+      threatModal.setAttribute('aria-hidden','true');
+      document.body.style.overflow='';
+      setTimeout(() => threatScenario.innerHTML='', 300);
+    }
+    threatClose.addEventListener('click', closeThreatModal);
+    document.addEventListener('keydown', e => { if(e.key==='Escape' && threatModal.classList.contains('active')) closeThreatModal(); });
+    threatModal.addEventListener('click', e => { if(e.target === threatModal) closeThreatModal(); });
+
+    // Visor de fotos existente (adaptado)
+    const imageModal = document.getElementById('image-lightbox');
+    const imageFrame = document.getElementById('image-frame');
+    const imageClose = document.getElementById('image-close');
+
+    document.querySelectorAll('[data-image]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const url = btn.dataset.image;
+        const allowed = ['https://drive.google.com/uc?export=view&id=1xPaqrSBADHyoigmlWjfOzqelXhZjTzgF','https://drive.google.com/uc?export=view&id=1hbnC6Waz5MnXrzdQIppWfcA2_Pde_ms9'];
+        if(!allowed.includes(url)){ alert('Imagen no permitida'); return; }
+        imageFrame.src = url; imageModal.classList.add('active'); imageModal.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden';
+      });
+      btn.setAttribute('tabindex','0');
+      btn.addEventListener('keydown', e => { if(e.key==='Enter'||e.key===' ') { e.preventDefault(); btn.click(); } });
+    });
+
+    function closeImageModal() { imageFrame.src=''; imageModal.classList.remove('active'); imageModal.setAttribute('aria-hidden','true'); document.body.style.overflow=''; }
+    imageClose.addEventListener('click', closeImageModal);
+    document.addEventListener('keydown', e => { if(e.key==='Escape' && imageModal.classList.contains('active')) closeImageModal(); });
+    imageModal.addEventListener('click', e => { if(e.target === imageModal) closeImageModal(); });
+
+    // Efectos hover 3D y sparks (original)
+    const allCards = document.querySelectorAll('.card');
+    allCards.forEach(card => {
+      card.style.transition = 'transform .28s cubic-bezier(.2,.9,.2,1), box-shadow .28s';
+      card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left; const y = e.clientY - rect.top;
+        const cx = rect.width/2; const cy = rect.height/2;
+        const dx = (x-cx)/cx; const dy = (y-cy)/cy;
+        const rx = (dy * 6).toFixed(2); const ry = (-dx * 8).toFixed(2);
+        card.style.transform = `translateY(-18px) scale(1.06) rotateX(${rx}deg) rotateY(${ry}deg) rotateZ(-0.6deg)`;
+      });
+      card.addEventListener('mouseenter', e => {
+        card.style.transition='transform .12s cubic-bezier(.2,.9,.2,1), box-shadow .22s';
+        for(let i=0;i<3;i++) createSpark(card, 4 + Math.random()*6);
+      });
+      card.addEventListener('mouseleave', ()=>{ card.style.transition='transform .45s cubic-bezier(.2,.9,.2,1), box-shadow .35s'; card.style.transform=''; });
+      const tinyShake = () => {
+        if(card.matches(':hover')){ setTimeout(tinyShake, 1000 + Math.random()*2000); return; }
+        const tx = (Math.random()*6 -3).toFixed(2); const ty = (Math.random()*4 -2).toFixed(2); const rot = (Math.random()*1 -0.5).toFixed(2);
+        card.animate([{transform:`translate(${tx}px,${ty}px) rotate(${rot}deg)`},{transform:'translate(0px,0px) rotate(0deg)'}], {duration:420+Math.random()*600,easing:'ease-in-out'});
+        setTimeout(tinyShake, 1500 + Math.random()*2600);
+      };
+      setTimeout(tinyShake, 400 + Math.random()*900);
+    });
+
+    function createSpark(card, size){
+      const s = document.createElement('span'); s.className='spark';
+      const colors = ['#fff8c6','#ffd5e8','#bff8ff','#ffd27a'];
+      s.style.background = colors[Math.floor(Math.random()*colors.length)];
+      const rw = card.getBoundingClientRect();
+      s.style.left = Math.random()*(rw.width-20) + 'px';
+      s.style.top = Math.random()*(rw.height-20) + 'px';
+      s.style.opacity = '0';
+      card.appendChild(s);
+      s.style.width = s.style.height = (size||6) + 'px';
+      const anim = s.animate([{opacity:0,transform:'scale(0.4) translateY(6px) rotate(0deg)'},{opacity:1,transform:'scale(1.1) translateY(-6px) rotate(30deg)'},{opacity:0,transform:'scale(0.6) translateY(-14px) rotate(60deg)'}], {duration:380+Math.random()*520,easing:'cubic-bezier(.2,.9,.2,1)'});
+      anim.onfinish = () => s.remove();
+    }
+
+    // Reduced motion
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if(mq.matches){ document.querySelectorAll('.card').forEach(c=>{ c.style.animation='none'; c.style.transition='none'; }); document.querySelectorAll('.float-shape').forEach(s=>s.style.animation='none'); }
+  </script>
+</body>
+</html>
